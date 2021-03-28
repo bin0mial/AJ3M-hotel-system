@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ManagerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/home', function () {
+    return view('layouts.admin');
+});
+
+Route::get('manager/index', [ManagerController::class, 'index'])->name('manager.index');
+Route::get('manager/create', [ManagerController::class, 'create'])->name('manager.create');
+Route::post('manager', [ManagerController::class, 'store'])->name('manager.store');
