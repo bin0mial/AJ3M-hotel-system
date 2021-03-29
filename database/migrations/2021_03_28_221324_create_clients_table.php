@@ -18,6 +18,7 @@ class CreateClientsTable extends Migration
             $table->string('mobile' ,15);
             $table->string('country');
             $table->enum('gender',['male','female']);
+            $table->unsignedBigInteger('receptionist_id');
             $table->timestamps();
         });
     }

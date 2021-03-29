@@ -24,14 +24,14 @@
 {{--                <td> {{$recept->national_id }} </td>--}}
 {{--                <td> {{$recept->created_at }} </td>--}}
 {{--                <td>--}}
-{{--                    <a class="btn btn-success" href="#" role="button">Action</a> --}}
+                   {{-- <a class="btn btn-success" href="#" role="button">Action</a> --}}
 {{--                </td>--}}
 {{--            </tr>--}}
 {{--            @endforeach--}}
 {{--        </tbody>--}}
 {{--    </table>--}}
-{{--</div>--}}
-{{--@endsection--}}
+{{-- </div> --}}
+{{-- @endsection --}}
 
 @extends('layouts.manager')
 

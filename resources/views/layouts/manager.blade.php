@@ -225,18 +225,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <p>Inactive Page</p>
                                     </a>
                                 </li>
+                                {{-- @role('manager') --}}
                                 <li class="nav-item">
-                                    <a href="{{route('manager.index')}}" class="nav-link">
+                                    <a href="{{route('receptionist.index')}}" class="nav-link">
                                         <i class="nav-icon fas fa-book"></i>
                                         <p>All receptionists</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href=" {{route('manager.create')}} " class="nav-link">
+                                    <a href=" {{route('receptionist.create')}} " class="nav-link">
                                         <i class="nav-icon fas fa-edit"></i>
                                         <p>Create receptionist</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href=" {{route('receptionist.create')}} " class="nav-link">
+                                        <i class="nav-icon fas fa-edit"></i>
+                                        <p>All Clients</p>
+                                    </a>
+                                </li>
+                                {{-- @endrole --}}
                             </ul>
                         </li>
                         <li class="nav-item">

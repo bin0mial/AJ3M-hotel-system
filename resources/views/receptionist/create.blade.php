@@ -8,7 +8,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form class="w-75 m-auto"  method="POST" action="{{ route('manager.store') }}" enctype="multipart/form-data">
+        <form class="w-75 m-auto"  method="POST" action="{{ route('receptionist.store') }}" enctype="multipart/form-data">
             @csrf
             @if ($errors->any())
                 <div class="alert alert-danger">
