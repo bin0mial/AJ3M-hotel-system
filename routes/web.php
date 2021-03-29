@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ReceptionistController;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\UserController;
+use \App\Http\Controllers\ManagerController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -22,6 +22,13 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('layouts.admin');
 });
+
+Route::prefix("manager")->group(function (){
+    Route::get('/index', [ManagerController::class, 'index'])->name('manager.index');
+    Route::get('/create', [ManagerController::class, 'create'])->name('manager.create');
+    Route::post('/', [ManagerController::class, 'store'])->name('manager.store');
+});
+
 Route::group(['middleware' => 'auth'],function () {
     Route::prefix("receptionist")->group(function (){
         Route::get('/index', [ReceptionistController::class, 'index'])->name('receptionist.index');
