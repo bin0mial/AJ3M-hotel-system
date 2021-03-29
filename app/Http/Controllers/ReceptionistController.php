@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\UsersDataTable;
+use App\DataTables\ReceptionistDataTable;
 use App\Http\Requests\StoreReceptRequest;
+use App\Models\Manager;
 use App\Models\Receptionist;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReceptionistController extends Controller
 {
-    public function index(UsersDataTable $dataTable){
+    public function index(ReceptionistDataTable $dataTable){
         return $dataTable->render('receptionist.index');
 //        return view('manager.index',[
 //            'recepts'   => User::all()->where('creator_id','=','1')
@@ -18,7 +20,9 @@ class ReceptionistController extends Controller
     }
 
     public function create(){
-        return view('receptionist.create');
+        return view('receptionist.create',[
+            "managers" => Manager::all()
+        ]);
     }
 
     public function store(StoreReceptRequest $request){
@@ -39,8 +43,13 @@ class ReceptionistController extends Controller
             }
         }
         $user->save();
+        dd($user->manager());
         $receptionist = new Receptionist;
-        $receptionist->manager_id = 1;
+        if($request->manager_id){
+            $receptionist->manager_id = $request->manager_id;
+        } else { 
+            $receptionist->manager_id = Auth::user()->id;
+        }
         $receptionist->receptionist_id = $user->id;
         $receptionist->save();
         return redirect()->route('receptionist.index');

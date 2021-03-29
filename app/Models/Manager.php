@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Manager extends Model
 {
     use HasFactory;
+
+    public function receptionists(){
+        return $this->hasMany(Receptionist::class);
+    }
 }

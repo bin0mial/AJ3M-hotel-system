@@ -15,11 +15,11 @@ class CreateManagersTable extends Migration
     {
         Schema::create('managers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('manager_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
 
-            $table->foreign('manager_id')->on('users')->references('id');
+            $table->foreign('user_id')->on('users')->references('id');
         });
     }
 

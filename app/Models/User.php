@@ -25,6 +25,10 @@ class User extends Authenticatable
         'avatar_image',
     ];
 
+    public function manager(){
+        return $this->hasOne(Manager::class);
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.admin')
 
 
 @section('content')
@@ -20,6 +20,23 @@
                 </div>
             @endif
             <div class="card-body">
+                @role('admin')
+                <h3>Manager Info</h3>
+                <div class="form-group">
+                    <div class="w-100">
+                        <label>Manger:<span class="text-danger">*</span></label>
+                        <select name="manager_id" class="form-control">
+                            <option selected disabled value="">Select a name:</option>
+                            {{-- @foreach ($users as $user) --}}
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            {{-- @endforeach --}}
+                        </select>
+                    </div>
+                </div>
+                @endrole
+                <h3 class="mx-auto">Receptcionist Info</h3>
                 <div class="form-group">
                     <label>Name<span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="recept_name" placeholder="Enter name">
@@ -37,14 +54,10 @@
                     <input type="password" class="form-control" name="recept_password" placeholder="Password">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputFile">Choose image (optional)</label>
                     <div class="input-group">
                         <div class="input-group mb-3">
-                            <label>Choose a picture:</label>
+                            <label>Choose image (optional)</label>
                             <input type="file" class="form-control-file" name="recept_image" accept="image/*">
-                        </div>
-                        <div class="input-group-append">
-                            <span class="input-group-text">Upload</span>
                         </div>
                     </div>
                 </div>

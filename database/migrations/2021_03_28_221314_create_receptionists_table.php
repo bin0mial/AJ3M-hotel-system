@@ -15,12 +15,13 @@ class CreateReceptionistsTable extends Migration
     {
         Schema::create('receptionists', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('receptionist_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('manager_id');
             $table->timestamps();
 
 
-            $table->foreign('receptionist_id')->on('users')->references('id');
+            $table->foreign('user_id')->on('users')->references('id');
+            $table->foreign('manager_id')->on('managers')->references('id');
         });
     }
 
