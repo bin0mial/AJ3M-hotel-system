@@ -11,8 +11,8 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-    require('admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css');
-    require('admin-lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css');
+    require('datatables.net-bs4');
+    require('datatables.net-buttons-bs4');
 } catch (e) {}
 
 /**

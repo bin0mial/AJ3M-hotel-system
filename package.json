@@ -24,6 +24,14 @@
     "dependencies": {
         "admin-lte": "^3.1.0",
         "datatables.net": "^1.10.24",
+        "datatables.net-bs4": "^1.10.24",
+        "datatables.net-buttons-bs4": "^1.7.0",
         "datatables.net-dt": "^1.10.24"
-    }
+    },
+    "name": "AJ3M-hotel-system",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/bin0mial/AJ3M-hotel-system.git",
+    "author": "John George <Sci.JohnGeorge.2017@alexu.edu.eg>",
+    "license": "MIT"
 }
