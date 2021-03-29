@@ -23,7 +23,9 @@ class ReceptionistDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'receptionist.action');
+            ->addColumn('action', function ($data) {
+                return $this->getReceptionistActionColumn($data);
+            });
     }
 
     /**
@@ -69,27 +71,30 @@ class ReceptionistDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            Column::make('user.id')->title("ID"),
+            Column::make('user.name')->title("Name"),
+            Column::make('user.email')->title("Email"),
+            Column::make('user.national_id')->title("National ID"),
+            Column::make('user.created_at')->title("created_at"),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('user.id'),
-            Column::make('user.name'),
-            Column::make('user.email'),
-            Column::make('user.national_id'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center')
         ];
     }
 
-    protected function getActionColumn($data = "tst"): string
+    protected function getReceptionistActionColumn($data)
     {
-        $showUrl = route('admin.brands.show', $data);
-        $editUrl = route('admin.brands.edit', $data);
-        return "<a class='waves-effect btn btn-success' data-value='$data' href='$showUrl'><i class='material-icons'>visibility</i>Details</a>
-                        <a class='waves-effect btn btn-primary' data-value='$data->id' href='$editUrl'><i class='material-icons'>edit</i>Update</a>
-                        <button class='waves-effect btn deepPink-bgcolor delete' data-value='$data' ><i class='material-icons'>delete</i>Delete</button>";
+        if ($data->manager_id == Auth::user()->manager->id || Auth::user()->hasRole('admin')) {
+            $edit = route("manager.index");
+            $delete = route("manager.index");
+            return "<div class='d-flex'>"
+                . "<a class='btn btn-warning' href='$edit'>Edit</a>"
+                . "<a class='btn btn-danger ml-2' href='$delete'>Delete</a>"
+                . "</div>";
+
+        }
     }
 
     /**
