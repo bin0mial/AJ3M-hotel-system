@@ -2,16 +2,14 @@
 
 namespace App\DataTables;
 
-use App\Models\Receptionist;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Client;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ReceptionistDataTable extends DataTable
+class ClientDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -24,19 +22,20 @@ class ReceptionistDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function ($data) {
-                return $this->getReceptionistActionColumn($data);
+                return $this->getClientActionColumn($data);
             });
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Receptionist $model
+     * @param \App\Models\ClientDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Receptionist $model)
+    public function query(Client $model)
     {
         return $model->newQuery()->with(["user"]);
+        return $model->newQuery()->with(["client"]);
     }
 
     /**
@@ -47,20 +46,18 @@ class ReceptionistDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('users-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->lengthMenu()
-            ->dom('Blfrtip')
-            ->orderBy(1)
-            ->buttons(
-                Button::make('create'),
-                Button::make('export'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload'),
-            );
-
+                    ->setTableId('users-table')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    ->dom('Bfrtip')
+                    ->orderBy(1)
+                    ->buttons(
+                        Button::make('create'),
+                        Button::make('export'),
+                        Button::make('print'),
+                        Button::make('reset'),
+                        Button::make('reload')
+                    );
     }
 
     /**
@@ -71,31 +68,18 @@ class ReceptionistDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('user.id')->title("ID"),
+            
             Column::make('user.name')->title("Name"),
             Column::make('user.email')->title("Email"),
-            Column::make('user.national_id')->title("National ID"),
-            Column::make('user.created_at')->title("created_at"),
+            Column::make('client.mobile')->title("Mobile"),
+            Column::make('client.country')->title("Country"),
+            Column::make('client.gender')->title("Gender"),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')
         ];
-    }
-
-    protected function getReceptionistActionColumn($data)
-    {
-        // if ($data->manager_id == Auth::user()->manager->id || Auth::user()->hasRole('admin')) {
-           
-
-        // }
-        $edit = route("manager.index");
-        $delete = route("manager.index");
-        return "<div class='d-flex'>"
-            . "<a class='btn btn-warning' href='$edit'>Edit</a>"
-            . "<a class='btn btn-danger ml-2' href='$delete'>Delete</a>"
-            . "</div>";
     }
 
     /**
@@ -105,6 +89,19 @@ class ReceptionistDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Receptionist_' . date('YmdHis');
+        return 'Client_' . date('YmdHis');
+    }
+
+
+
+    protected function getClientActionColumn()
+    {
+        
+        $show_reservations = route("client.show");
+        //$delete = route("client.index");
+        return "<div class='d-flex'>"
+            ."<a class='btn btn-warning' href='$show_reservations'>show</a>"
+           
+            ."</div>";
     }
 }

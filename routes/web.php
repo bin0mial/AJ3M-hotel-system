@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ReceptionistController;
+use App\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\ManagerController;
 use Illuminate\Support\Facades\Auth;
@@ -35,6 +36,12 @@ Route::group(['middleware' => 'auth'],function () {
         Route::get('/create', [ReceptionistController::class, 'create'])->name('receptionist.create');
         Route::post('/', [ReceptionistController::class, 'store'])->name('receptionist.store');
     });
+});
+
+Route::prefix("client")->group(function (){
+    Route::get('/index', [ClientController::class, 'index'])->name('client.index');
+    
+    
 });
 
 
