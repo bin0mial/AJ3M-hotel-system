@@ -1,7 +1,9 @@
 @extends("layouts.admin")
 
 @section("content")
-    {{$dataTable->table()}}
+    <div class="container">
+        {{$dataTable->table()}}
+    </div>
 @endsection
 
 @push("scripts")

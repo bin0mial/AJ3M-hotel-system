@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ReceptionistDataTable;
+use App\Http\Requests\ReceptionistUpdateRequest;
 use App\Http\Requests\StoreReceptRequest;
 use App\Models\Manager;
 use App\Models\Receptionist;
@@ -43,15 +44,36 @@ class ReceptionistController extends Controller
             }
         }
         $user->save();
-        dd($user->manager());
         $receptionist = new Receptionist;
         if($request->manager_id){
             $receptionist->manager_id = $request->manager_id;
-        } else { 
+        } else {
             $receptionist->manager_id = Auth::user()->id;
         }
-        $receptionist->receptionist_id = $user->id;
+        $receptionist->user_id = $user->id;
         $receptionist->save();
         return redirect()->route('receptionist.index');
     }
+
+    public function edit($receptionist){
+//        $receptionist = Receptionist::where("manager_id" ,"=" ,Auth::user()->id);
+        return view('receptionist.edit',[
+            "receptionist" => User::find($receptionist),
+        ]);
+    }
+
+    public function update(ReceptionistUpdateRequest $request ,$receptionist_id){
+        User::where('id', $receptionist_id)
+            ->update([
+                'name'          => $request['recept_name'],
+                'email'         => $request['recept_email'],
+                'national_id'   => $request['recept_national_id'] ? $request['recept_national_id'] : "",
+            ]);
+        return redirect()->route('receptionist.index');
+    }
+
+    public function destory(){
+        dd("destroy");
+    }
+
 }

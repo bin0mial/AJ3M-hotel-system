@@ -233,7 +233,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         {{-- @role('manager') --}}
                         <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-user-cog"></i>
                                 <p>
                                     Receptionist Control
                                     <i class="right fas fa-angle-left"></i>
@@ -258,7 +258,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         {{-- @role('receptionist') --}}
                         <li class="nav-item menu">
                             <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-user-friends"></i>
                                 <p>
                                     Client Control
                                     <i class="right fas fa-angle-left"></i>
@@ -270,12 +270,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <a href="{{route('receptionist.index')}}" class="nav-link">
                                         <i class="nav-icon fas fa-book"></i>
                                         <p>All clients</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href=" {{route('receptionist.create')}} " class="nav-link">
-                                        <i class="nav-icon fas fa-edit"></i>
-                                        <p>Create clients</p>
                                     </a>
                                 </li>
                                 {{-- @endrole --}}

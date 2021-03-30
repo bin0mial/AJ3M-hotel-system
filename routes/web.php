@@ -34,6 +34,11 @@ Route::group(['middleware' => 'auth'],function () {
         Route::get('/index', [ReceptionistController::class, 'index'])->name('receptionist.index');
         Route::get('/create', [ReceptionistController::class, 'create'])->name('receptionist.create');
         Route::post('/', [ReceptionistController::class, 'store'])->name('receptionist.store');
+        Route::get('/{receptionist}/edit', [ReceptionistController::class, 'edit'])
+            ->name('receptionist.edit');
+        Route::put('/{receptionist_id}', [ReceptionistController::class, 'update'])
+            ->name('receptionist.update');
+        Route::delete('/{receptionist_id}' , [ReceptionistController::class, 'destroy'])->name('receptionist.destroy');
     });
 });
 

@@ -22,6 +22,7 @@ class CreateClientsTable extends Migration
             $table->unsignedBigInteger('receptionist_id');
             $table->timestamps();
 
+            $table->foreign('user_id')->on('users')->references('id');
             $table->foreign('receptionist_id')->on('receptionists')->references('id');
         });
     }
