@@ -4,15 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class ClientReservationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function index()     //get all clients
+    public function index()
     {
         //
     }
@@ -22,7 +21,7 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()    // add a new client
+    public function create()
     {
         //
     }
@@ -44,7 +43,7 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)       // get a specific client
+    public function show($id)
     {
         //
     }
@@ -55,7 +54,7 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)       // edit a specific client
+    public function edit($id)
     {
         //
     }
@@ -67,7 +66,7 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)       // update a specific client
+    public function update(Request $request, $id)
     {
         //
     }
@@ -78,7 +77,7 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)        // delete a specific client
+    public function destroy($id)
     {
         //
     }
