@@ -2,7 +2,8 @@
 @section('title') AJ3M @endsection
 
 @section('header')
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+        <div class="container">
         <a class="navbar-brand" href="#">AJ3M Hotels</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -22,9 +23,10 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/reservations/index">Login</a>
+                <a class="nav-link" href="/reservation/index">Login</a>
             </li>
           </ul>
+        </div>
         </div>
     </nav>
 @endsection
