@@ -13,9 +13,12 @@ class ClientReservationController extends Controller
      */
     public function index()
     {
-        //
+        return view('auth.clientLogin');
     }
 
+    public function register(){
+        return view('auth.clientRegister');
+    }
     /**
      * Show the form for creating a new resource.
      *
