@@ -144,8 +144,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         @endhasanyrole
                         @hasanyrole("admin")
-                        <li class="nav-item menu-close">
-                            <a href="#" class="nav-link">
+                        @php($currentRoute = Route::currentRouteName())
+                        @php($active = str_starts_with($currentRoute, "managers"))
+                        <li class="nav-item menu-{{$active? "open": "close"}}">
+                            <a href="#" class="nav-link  @if($active) active @endif">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     Manager Control
@@ -154,13 +156,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('managers.index')}}" class="nav-link">
+                                    <a href="{{route('managers.index')}}" class="nav-link {{$currentRoute=="managers.index"?"active": ""}}">
                                         <i class="nav-icon fas fa-users"></i>
                                         <p>All Managers</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href=" {{route('managers.create')}} " class="nav-link">
+                                    <a href=" {{route('managers.create')}} " class="nav-link {{$currentRoute=="managers.create"?"active": ""}}">
                                         <i class="nav-icon fas fa-user-plus"></i>
                                         <p>Create Manager</p>
                                     </a>

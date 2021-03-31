@@ -58,8 +58,6 @@ class ManagerController extends Controller
         } catch (\Exception $exception) {
             return response("Please remove people controlled by this manager first or move them")->setStatusCode(400);
         }
-
-
         return response("Deleted Successfully");
     }
 }
