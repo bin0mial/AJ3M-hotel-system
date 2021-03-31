@@ -28,6 +28,7 @@ Route::get('/reservations', function () {
 });
 
 Route::group(['middleware' => 'auth'],function () {
+
     Route::prefix("managers")->middleware(["role:admin"])->group(function (){
         Route::get('/', [ManagerController::class, 'index'])->name('managers.index');
         Route::get('/create', [ManagerController::class, 'create'])->name('managers.create');
@@ -39,15 +40,15 @@ Route::group(['middleware' => 'auth'],function () {
     });
 
 
-    Route::prefix("receptionist")->group(function (){
-        Route::get('/index', [ReceptionistController::class, 'index'])->name('receptionist.index');
-        Route::get('/create', [ReceptionistController::class, 'create'])->name('receptionist.create');
-        Route::post('/', [ReceptionistController::class, 'store'])->name('receptionist.store');
-        Route::get('/{receptionist}/edit', [ReceptionistController::class, 'edit'])
-            ->name('receptionist.edit');
+    Route::prefix("receptionists")->group(function (){
+        Route::get('/index', [ReceptionistController::class, 'index'])->name('receptionists.index');
+        Route::get('/create', [ReceptionistController::class, 'create'])->name('receptionists.create');
+        Route::post('/', [ReceptionistController::class, 'store'])->name('receptionists.store');
+        Route::get('/{receptionists}/edit', [ReceptionistController::class, 'edit'])
+            ->name('receptionists.edit');
         Route::put('/{receptionist_id}', [ReceptionistController::class, 'update'])
-            ->name('receptionist.update');
-        Route::delete('/{receptionist_id}' , [ReceptionistController::class, 'destroy'])->name('receptionist.destroy');
+            ->name('receptionists.update');
+        Route::delete('/{receptionist_id}' , [ReceptionistController::class, 'destroy'])->name('receptionists.destroy');
     });
 
     Route::prefix("reservations")->middleware(["role:client"])->group(function () {

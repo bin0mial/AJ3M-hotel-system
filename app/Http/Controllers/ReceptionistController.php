@@ -14,50 +14,54 @@ use Illuminate\Support\Facades\Auth;
 class ReceptionistController extends Controller
 {
     public function index(ReceptionistDataTable $dataTable){
-        return $dataTable->render('receptionist.index');
+        return $dataTable->render('receptionists.index');
 //        return view('manager.index',[
 //            'recepts'   => User::all()->where('creator_id','=','1')
 //        ]);
     }
 
     public function create(){
-        return view('receptionist.create',[
+        return view('receptionists.create',[
             "managers" => Manager::all()
         ]);
     }
 
     public function store(StoreReceptRequest $request){
-        $user = new User;
-        $user->name = $request->recept_name;
-        $user->email = $request->recept_email;
-        $user->national_id = $request->recept_national_id;
-        $user->password = $request->recept_password;
+//        $user = new User;
+//        $user->name = $request->recept_name;
+//        $user->email = $request->recept_email;
+//        $user->national_id = $request->recept_national_id;
+//        $user->password = $request->recept_password;
+//        $user->assignRole('receptionists');
+//        if($request->hasFile('recept_image')){
+//            $file = $request->file('recept_image');
+//            $extension = $file->getClientOriginalExtension();
+//            $check = in_array($extension,['jpg','jpeg']);
+//            if($check){
+//                $user->avatar_image = $request->recept_image;
+//            } else {
+//                dd("to do show fail message for extension");
+//            }
+//        }
+//        $user->save();
+//        $receptionists = new Receptionist;
+//        if($request->manager_id){
+//            $receptionists->manager_id = $request->manager_id;
+//        } else {
+//            $receptionists->manager_id = Auth::user()->id;
+//        }
+//        $receptionists->user_id = $user->id;
+//        $receptionists->save();
+//        return redirect()->route('receptionists.index');
+        $user = User::create($request->validated());
         $user->assignRole('receptionist');
-        if($request->hasFile('recept_image')){
-            $file = $request->file('recept_image');
-            $extension = $file->getClientOriginalExtension();
-            $check = in_array($extension,['jpg','jpeg']);
-            if($check){
-                $user->avatar_image = $request->recept_image;
-            } else {
-                dd("to do show fail message for extension");
-            }
-        }
-        $user->save();
-        $receptionist = new Receptionist;
-        if($request->manager_id){
-            $receptionist->manager_id = $request->manager_id;
-        } else {
-            $receptionist->manager_id = Auth::user()->id;
-        }
-        $receptionist->user_id = $user->id;
-        $receptionist->save();
-        return redirect()->route('receptionist.index');
+        $managerId = Auth::user()->hasRole('manager') ?  Auth::user()->manager->id : $request->manager_id;
+        Receptionist::create(["user_id" => $user->id ,"manager_id" => $managerId]);
+        return redirect()->back()->with(["success" => ["message" => "Manager Created Successfully"]]);
     }
 
     public function edit($receptionist){
-//        $receptionist = Receptionist::where("manager_id" ,"=" ,Auth::user()->id);
-        return view('receptionist.edit',[
+        return view('receptionists.edit',[
             "receptionist" => User::find($receptionist),
         ]);
     }
@@ -69,11 +73,13 @@ class ReceptionistController extends Controller
                 'email'         => $request['recept_email'],
                 'national_id'   => $request['recept_national_id'] ? $request['recept_national_id'] : "",
             ]);
-        return redirect()->route('receptionist.index');
+        return redirect()->route('receptionists.index');
     }
 
-    public function destory(){
-        dd("destroy");
+    public function destroy($id){
+        dd("test");
+//        $receptionists = Receptionist::find($id);
+//        $receptionists->user->delete();
     }
 
 }

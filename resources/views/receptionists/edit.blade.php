@@ -8,8 +8,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-{{--        @dd($receptionist)--}}
-        <form class="w-75 m-auto"  method="POST" action="{{ route('receptionist.update' , [$receptionist->id] ) }}" enctype="multipart/form-data">
+        <form class="w-75 m-auto"  method="POST" action="{{ route('receptionists.update' , [$receptionist->id] ) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             @if ($errors->any())

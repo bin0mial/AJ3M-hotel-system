@@ -180,13 +180,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('receptionist.index')}}" class="nav-link">
+                                    <a href="{{route('receptionists.index')}}" class="nav-link">
                                         <i class="nav-icon fas fa-book"></i>
                                         <p>All receptionists</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href=" {{route('receptionist.create')}} " class="nav-link">
+                                    <a href=" {{route('receptionists.create')}} " class="nav-link">
                                         <i class="nav-icon fas fa-edit"></i>
                                         <p>Create receptionist</p>
                                     </a>
@@ -195,9 +195,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         @endhasanyrole
                         {{-- CLIENT  --}}
-                        {{-- @role('receptionist') --}}
+                        {{-- @role('receptionists') --}}
                         <li class="nav-item menu">
-                            <a href="#" class="nav-link active">
+                            <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user-friends"></i>
                                 <p>
                                     Client Control
@@ -207,7 +207,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 {{-- @role('role') --}}
                                 <li class="nav-item">
-                                    <a href="{{route('receptionist.index')}}" class="nav-link">
+                                    <a href="{{route('receptionists.index')}}" class="nav-link">
                                         <i class="nav-icon fas fa-book"></i>
                                         <p>All clients</p>
                                     </a>
