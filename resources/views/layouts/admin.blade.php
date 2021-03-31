@@ -231,6 +231,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.content-header -->
 
             <!-- Main content -->
+            @if(session()->has("success"))
+                <div class="alert alert-success">
+                    <ul>
+                        @foreach (session()->get("success") as $success)
+                            <li>{{ $success }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             @yield("content")
 
             <!-- /.content -->
@@ -264,6 +282,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- REQUIRED SCRIPTS -->
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
     @stack('scripts')
+    <script>
+        const deleteButton = (url, name, table) => {
+            if (confirm(`Are you sure you want to delete ${name}, permanently`)){
+                const data = {
+                    _method: "DELETE",
+                    _token: "{{ csrf_token() }}"
+                }
+                $.ajaxSetup({
+                    url: url,
+                    global: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    type: "POST"
+                });
+
+                $.ajax({
+                    type: "POST",
+                    data: data,
+                    success: function () {
+                        $(`#${table}-table`).DataTable().ajax.reload(null, false);
+                    },
+                    error: function (jqXhr){
+                        alert(jqXhr.responseText)
+                    },
+                });
+            }
+        }
+    </script>
 </body>
 
 </html>

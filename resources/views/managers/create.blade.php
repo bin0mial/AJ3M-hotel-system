@@ -7,17 +7,9 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
+
         <form class="w-75 m-auto" method="POST" action="{{ route('managers.store') }}" enctype="multipart/form-data">
             @csrf
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             <div class="card-body">
                 <h3 class="mx-auto">Manager Info</h3>
                 <x-forms.input name="name" type="text" placeholder="Enter Name" :value="old('name')" required="true"/>
