@@ -23,6 +23,9 @@ Route::get('/home', function () {
     return view('layouts.admin');
 });
 
+Route::get('/reservations', function () {
+    return view('reservations.index');
+});
 
 Route::group(['middleware' => 'auth'],function () {
     Route::prefix("managers")->middleware(["role:admin"])->group(function (){
@@ -46,6 +49,13 @@ Route::group(['middleware' => 'auth'],function () {
             ->name('receptionist.update');
         Route::delete('/{receptionist_id}' , [ReceptionistController::class, 'destroy'])->name('receptionist.destroy');
     });
+
+    Route::prefix("reservations")->middleware(["role:client"])->group(function () {
+        Route::get('/index', [ClientReservationController::class, 'index'])->name('reservations.index');
+        Route::get('/create', [ClientReservationController::class, 'create'])->name('reservations.create');
+
+    });
+
 });
 
 

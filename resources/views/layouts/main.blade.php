@@ -35,7 +35,7 @@
         @yield('content')
     </main>
 
-    <footer class="text-center text-white mt-4" style="background-color: #caced1;">
+    <footer class="text-center text-white mt-4" style="background-color: #AAA;">
         @yield('footer')
     </footer>
 
