@@ -4,6 +4,7 @@ use App\Http\Controllers\ReceptionistController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\ManagerController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ClientReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +52,7 @@ Route::group(['middleware' => 'auth'],function () {
         Route::delete('/{receptionist_id}' , [ReceptionistController::class, 'destroy'])->name('receptionists.destroy');
     });
 
-    Route::prefix("reservations")->middleware(["role:client"])->group(function () {
+    Route::prefix("reservation")->group(function () {
         Route::get('/index', [ClientReservationController::class, 'index'])->name('reservations.index');
         Route::get('/create', [ClientReservationController::class, 'create'])->name('reservations.create');
 
@@ -63,4 +64,5 @@ Route::group(['middleware' => 'auth'],function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::get('/reservation/index', [ClientReservationController::class, 'index'])->name('clientLogin');
+Route::get('/reservation/register', [ClientReservationController::class, 'register'])->name('clientRegister');

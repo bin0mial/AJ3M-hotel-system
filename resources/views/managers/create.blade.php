@@ -1,5 +1,7 @@
 @extends("layouts.admin")
 
+@section("title", "Create Manager)
+
 @section("content")
     <div class="card card-primary w-75 m-auto">
         <div class="card-header">

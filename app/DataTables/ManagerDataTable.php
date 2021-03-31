@@ -75,7 +75,10 @@ class ManagerDataTable extends DataTable
         return [
 
             Column::make('id')->title("Manager ID"),
-            Column::computed("avatar_image"),
+            Column::computed("avatar_image")
+                ->exportable(false)
+                ->printable(false)
+                ->width(60),
             Column::make("user.name")->title("Name"),
             Column::make("user.national_id")->title("National ID"),
             Column::make("user.email")->title("Email"),
