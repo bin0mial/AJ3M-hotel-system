@@ -22,11 +22,13 @@ class ManagerDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action',function (){
-                return $this->getManagerActionColumn();
+            ->addColumn('action', function ($data) {
+                return $this->getManagerActionColumn($data);
             })
-            ->setRowClass('{{ $id % 2 == 0 ? "alert-secondary" : "alert-light"}}')
-            ->addRowAttr("test", '{{ $created_at }}');
+            ->addColumn("avatar_image", function ($data) {
+                return $this->getAvatarImage($data);
+            }, false)
+            ->rawColumns(['avatar_image', 'action']);
     }
 
     /**
@@ -48,19 +50,19 @@ class ManagerDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('manager-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->lengthMenu()
-                    ->dom('Blfrtip')
-                    ->orderBy(0, 1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload'),
-                    );
+            ->setTableId('manager-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->lengthMenu()
+            ->dom('Blfrtip')
+            ->orderBy(0, 1)
+            ->buttons(
+                Button::make('create'),
+                Button::make('export'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload'),
+            );
     }
 
     /**
@@ -72,7 +74,8 @@ class ManagerDataTable extends DataTable
     {
         return [
 
-            Column::make('user.id')->title("Manager ID"),
+            Column::make('id')->title("Manager ID"),
+            Column::computed("avatar_image"),
             Column::make("user.name")->title("Name"),
             Column::make("user.national_id")->title("National ID"),
             Column::make("user.email")->title("Email"),
@@ -95,13 +98,18 @@ class ManagerDataTable extends DataTable
         return 'Manager_' . date('YmdHis');
     }
 
-    protected function getManagerActionColumn()
+    protected function getManagerActionColumn($data)
     {
-        $edit = route("manager.index");
-        $delete = route("manager.index");
+        $edit = route("managers.edit", [$data->id]);
+        $delete = route("managers.destroy", $data->id);
+
         return "<div class='d-flex'>"
-            ."<a class='btn btn-warning' href='$edit'>Edit</a>"
-            ."<a class='btn btn-danger ml-2' href='$delete'>Delete</a>"
-            ."</div>";
+            . "<a class='btn btn-warning' href='$edit'>Edit</a>"
+            . "<button class='btn btn-danger ml-2 delete-user' onclick='deleteButton(\"$delete\", \"{$data->user->name}\")'>Delete</button>";
+    }
+
+    protected function getAvatarImage($data)
+    {
+        return "<img class='w-100 rounded-circle' src=\"{$data->user->avatar_image}\" alt=\"{$data->user->name} avatar image.\"/>";
     }
 }

@@ -86,7 +86,7 @@ class ReceptionistDataTable extends DataTable
 
     protected function getReceptionistActionColumn($data)
     {
-        if ($data->manager_id == Auth::user()->manager->id || Auth::user()->hasRole('admin')) {
+        if (Auth::user()->hasRole('admin') || $data->manager_id == Auth::user()->manager->id) {
             $edit = route("receptionist.edit" , [$data->id]);
             $delete = route("receptionist.index");
             return "<div class='d-flex'>"

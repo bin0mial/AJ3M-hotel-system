@@ -23,13 +23,19 @@ Route::get('/home', function () {
     return view('layouts.admin');
 });
 
-Route::prefix("manager")->group(function (){
-    Route::get('/index', [ManagerController::class, 'index'])->name('manager.index');
-    Route::get('/create', [ManagerController::class, 'create'])->name('manager.create');
-    Route::post('/', [ManagerController::class, 'store'])->name('manager.store');
-});
 
 Route::group(['middleware' => 'auth'],function () {
+    Route::prefix("managers")->middleware(["role:admin"])->group(function (){
+        Route::get('/', [ManagerController::class, 'index'])->name('managers.index');
+        Route::get('/create', [ManagerController::class, 'create'])->name('managers.create');
+        Route::post('/', [ManagerController::class, 'store'])->name('managers.store');
+        Route::get("/{manager}", [ManagerController::class, 'show'])->name('managers.show');
+        Route::get('/{manager}/edit', [ManagerController::class, 'edit'])->name('managers.edit');
+        Route::put("/{manager}", [ManagerController::class, 'update'])->name('managers.update');
+        Route::delete('/{manager}', [ManagerController::class, 'destroy'])->name('managers.destroy');
+    });
+
+
     Route::prefix("receptionist")->group(function (){
         Route::get('/index', [ReceptionistController::class, 'index'])->name('receptionist.index');
         Route::get('/create', [ReceptionistController::class, 'create'])->name('receptionist.create');

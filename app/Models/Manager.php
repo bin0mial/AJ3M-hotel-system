@@ -11,12 +11,12 @@ class Manager extends Model
     use HasFactory, HasRoles;
 
     protected $fillable = [
-        "manager_id"
+        "user_id"
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, "manager_id");
+        return $this->belongsTo(User::class);
     }
 
     public function receptionists(){

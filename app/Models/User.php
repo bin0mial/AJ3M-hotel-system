@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -26,7 +28,8 @@ class User extends Authenticatable
         'avatar_image',
     ];
 
-    public function manager(){
+    public function manager()
+    {
         return $this->hasOne(Manager::class);
     }
 
@@ -49,7 +52,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getCreatedAtAttribute($value){
-        return Carbon::create($value)->toDateTimeString();
+    public function getAvatarImageAttribute($value): string
+    {
+        return Storage::url($value);
+    }
+
+    public function setAvatarImageAttribute($value)
+    {
+        $path = $value ? $value->storePublicly("public/avatars") : null;
+        $this->attributes['avatar_image'] = $path;
     }
 }
