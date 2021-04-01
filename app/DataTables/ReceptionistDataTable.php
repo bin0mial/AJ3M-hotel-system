@@ -70,6 +70,7 @@ class ReceptionistDataTable extends DataTable
      */
     protected function getColumns()
     {
+        
         return [
             Column::make('user.id')->title("ID"),
             Column::make('user.name')->title("Name"),
@@ -86,10 +87,6 @@ class ReceptionistDataTable extends DataTable
 
     protected function getReceptionistActionColumn($data)
     {
-<<<<<<< HEAD
-        // if ($data->manager_id == Auth::user()->manager->id || Auth::user()->hasRole('admin')) {
-           
-=======
         if ($data->manager_id == Auth::user()->manager->id || Auth::user()->hasRole('admin')) {
             $edit = route("receptionist.edit" , [$data->id]);
             $delete = route("receptionist.index");
@@ -123,7 +120,6 @@ class ReceptionistDataTable extends DataTable
                     ."</div>"
                 ."</div>"
                 . "</div>";
->>>>>>> 7dbdc29a34d1062777c0569a19c74e2b690b2393
 
         // }
         $edit = route("manager.index");

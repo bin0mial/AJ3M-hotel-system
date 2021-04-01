@@ -194,6 +194,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         @endhasanyrole
                         {{-- CLIENT  --}}
                         {{-- @role('receptionist') --}}
+                    {{-- @hasanyrole('admin|manager|receptionist') --}}
                         <li class="nav-item menu">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-user-friends"></i>
@@ -207,21 +208,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <li class="nav-item">
                                     <a href="{{route('client.index')}}" class="nav-link">
                                         <i class="nav-icon fas fa-book"></i>
-                                        <p>My Approved Clients</p>
+                                        <p>Approved Clients</p>
                                     </a>
                                 </li>
-<<<<<<< HEAD
                                 <li class="nav-item">
-                                    <a href=" {{route('receptionist.create')}} " class="nav-link">
+                                    <a href=" {{--route('client.reservation')--}} " class="nav-link">
+                                        <i class="nav-icon fas fa-edit"></i>
+                                        <p>Clients Reservations</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href=" {{route('client.pending')}} " class="nav-link">
                                         <i class="nav-icon fas fa-edit"></i>
                                         <p>Pending Clients</p>
                                     </a>
                                 </li>
-=======
->>>>>>> 7dbdc29a34d1062777c0569a19c74e2b690b2393
+                               
                                 {{-- @endrole --}}
                             </ul>
                         </li>
+                        {{-- @endhasanyrole --}}
                         {{-- @endrole --}}
                         {{-- @endrole --}}
                     </ul>

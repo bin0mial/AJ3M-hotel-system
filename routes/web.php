@@ -45,7 +45,8 @@ Route::group(['middleware' => 'auth'],function () {
 
 Route::prefix("client")->group(function (){
     Route::get('/index', [ClientController::class, 'index'])->name('client.index');
-    
+    Route::get('/pending', [ClientController::class, 'pending'])->name('client.pending');
+    Route::get('/{id}/apply', [ClientController::class, 'apply'])->name('client.apply');
     
 });
 

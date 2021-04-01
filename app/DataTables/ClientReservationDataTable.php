@@ -1,16 +1,15 @@
 <?php
 
 namespace App\DataTables;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use App\Models\Client;
+
+use App\Models\ClientReservation;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ClientDataTable extends DataTable
+class ClientReservationDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,21 +21,18 @@ class ClientDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', function ($data) {
-                return $this->getClientActionColumn($data);
-            });
+            ->addColumn('action', 'clientreservation.action');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\ClientDataTable $model
+     * @param \App\Models\ClientReservation $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Client $model)
+    public function query(ClientReservation $model)
     {
-        return $model->newQuery()->with(["user"]);
-       
+        return $model->newQuery();
     }
 
     /**
@@ -47,7 +43,7 @@ class ClientDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('users-table')
+                    ->setTableId('clientreservation-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
@@ -69,7 +65,6 @@ class ClientDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            
             Column::make('user.name')->title("Name"),
             Column::make('user.email')->title("Email"),
             Column::make('client.mobile')->title("Mobile"),
@@ -86,34 +81,10 @@ class ClientDataTable extends DataTable
     /**
      * Get filename for export.
      *
-     * @return string$data
+     * @return string
      */
     protected function filename()
     {
-        return 'Client_' . date('YmdHis');
-    }
-
-
-
-    protected function getClientActionColumn($data)
-    {
-        if ($data->receptionist_id == null) {
-           
-        
-           
-            return "<div class='d-flex'>"
-            ."<a  href='{{ route('client/apply',$data->id)}}' class='btn btn-warning'>Apply</a>"
-            ."<div class='form-group'>'
-            
-            ."<select name ='user_id' class ='form-control' id='post_creator'>"
-            ."@foreach ($users as $user)"
-                ."<option value='{{$user->id}}'>{{$user->name}}</option>"
-              ."@endforeach"
-            ."</select>"
-            ."</div>"
-                
-
-            ."</div>";
-        }
+        return 'ClientReservation_' . date('YmdHis');
     }
 }
