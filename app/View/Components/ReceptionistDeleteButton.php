@@ -27,7 +27,7 @@ class ReceptionistDeleteButton extends Component
      */
     public function render()
     {
-        return view('components.receptionist-delete-button',
+        return view('components.receptionists-delete-button',
         [
             "action" => $this->action,
             "id"     => $this->id,

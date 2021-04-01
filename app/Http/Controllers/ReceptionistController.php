@@ -14,51 +14,27 @@ use Illuminate\Support\Facades\Auth;
 class ReceptionistController extends Controller
 {
     public function index(ReceptionistDataTable $dataTable){
-        return $dataTable->render('receptionist.index');
-//        return view('manager.index',[
-//            'recepts'   => User::all()->where('creator_id','=','1')
-//        ]);
+        return $dataTable->render('receptionists.index');
     }
 
     public function create(){
-        return view('receptionist.create',[
+        return view('receptionists.create',[
             "managers" => Manager::all()
         ]);
     }
 
     public function store(StoreReceptRequest $request){
-        $user = new User;
-        $user->name = $request->recept_name;
-        $user->email = $request->recept_email;
-        $user->national_id = $request->recept_national_id;
-        $user->password = $request->recept_password;
+        $user = User::create($request->validated());
         $user->assignRole('receptionist');
-        if($request->hasFile('recept_image')){
-            $file = $request->file('recept_image');
-            $extension = $file->getClientOriginalExtension();
-            $check = in_array($extension,['jpg','jpeg']);
-            if($check){
-                $user->avatar_image = $request->recept_image;
-            } else {
-                dd("to do show fail message for extension");
-            }
-        }
-        $user->save();
-        $receptionist = new Receptionist;
-        if($request->manager_id){
-            $receptionist->manager_id = $request->manager_id;
-        } else {
-            $receptionist->manager_id = Auth::user()->id;
-        }
-        $receptionist->user_id = $user->id;
-        $receptionist->save();
-        return redirect()->route('receptionist.index');
+        $manager_id = Auth::user()->hasRole('manager') ?  Auth::user()->manager->id : $request->manager_id;
+        Receptionist::create(["user_id" => $user->id ,"manager_id" => $manager_id]);
+        return redirect()->back()->with(["success" => ["message" => "Receptionist Created Successfully"]]);
     }
 
     public function edit($receptionist){
-//        $receptionist = Receptionist::where("manager_id" ,"=" ,Auth::user()->id);
-        return view('receptionist.edit',[
+        return view('receptionists.edit',[
             "receptionist" => User::find($receptionist),
+            "managers" => Manager::all(),
         ]);
     }
 
@@ -69,11 +45,25 @@ class ReceptionistController extends Controller
                 'email'         => $request['recept_email'],
                 'national_id'   => $request['recept_national_id'] ? $request['recept_national_id'] : "",
             ]);
-        return redirect()->route('receptionist.index');
+        return redirect()->route('receptionists.index')
+                ->with(["success" => ["message" => "Receptionist Updated Successfully"]]);
     }
 
-    public function destory(){
-        dd("destroy");
+    public function destroy($id){
+        $user = User::find($id);
+        Receptionist::find($user->receptionist->id)->delete();
+        $user->delete();
+        return redirect()->route('receptionists.index')
+                    ->with(["danger" => ["message" => "Receptionist Deleted Successfully"]]);
+    }
+
+    public function ban($id){
+        $user = User::find($id);
+        if ($user->hasRole('ban')){
+            $user->removeRole('ban');
+        } else {
+            $user->assignRole('ban');
+        }
     }
 
 }

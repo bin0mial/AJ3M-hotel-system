@@ -34,6 +34,10 @@ class User extends Authenticatable
         return $this->hasOne(Manager::class);
     }
 
+    public function receptionist(){
+        return $this->hasOne(Receptionist::class);
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *

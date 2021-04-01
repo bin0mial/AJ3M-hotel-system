@@ -17,7 +17,7 @@ class RoleSeeder extends Seeder
     {
         Role::create(['name'  => 'admin'])->givePermissionTo(['managers.*','receptionists.*','clients.*']);
         Role::create(['name'  => 'manager'])->givePermissionTo(['receptionists.*','clients.*']);
-        Role::create(['name'  => 'receptionist'])->givePermissionTo(['clients.*']);
+        Role::create(['name'  => 'receptionists'])->givePermissionTo(['clients.*']);
         Role::create(['name'  => 'client']);
         Role::create(['name'  => 'ban']);
     }

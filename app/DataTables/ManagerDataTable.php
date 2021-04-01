@@ -106,7 +106,7 @@ class ManagerDataTable extends DataTable
         $edit = route("managers.edit", [$data->id]);
         $delete = route("managers.destroy", $data->id);
         $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
-        return "<div class='d-flex'>"
+        return "<div class='d-flex  justify-content-center'>"
             . "<a class='btn btn-warning' href='$edit'>Edit</a>"
             . "<button class='btn btn-danger ml-2 delete-user' onclick='deleteButton(\"$delete\", \"{$data->user->name }\", \"$current_datatable\")'>Delete</button>";
     }

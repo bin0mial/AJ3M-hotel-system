@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\ReceptionistController;
-use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\ManagerController;
+use App\Http\Controllers\ReceptionistController;
+use App\Http\Controllers\FloorController;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientReservationController;
 
@@ -29,6 +30,7 @@ Route::get('/reservations', function () {
 });
 
 Route::group(['middleware' => 'auth'],function () {
+
     Route::prefix("managers")->middleware(["role:admin"])->group(function (){
         Route::get('/', [ManagerController::class, 'index'])->name('managers.index');
         Route::get('/create', [ManagerController::class, 'create'])->name('managers.create');
@@ -40,22 +42,49 @@ Route::group(['middleware' => 'auth'],function () {
     });
 
 
-    Route::prefix("receptionist")->group(function (){
-        Route::get('/index', [ReceptionistController::class, 'index'])->name('receptionist.index');
-        Route::get('/create', [ReceptionistController::class, 'create'])->name('receptionist.create');
-        Route::post('/', [ReceptionistController::class, 'store'])->name('receptionist.store');
-        Route::get('/{receptionist}/edit', [ReceptionistController::class, 'edit'])
-            ->name('receptionist.edit');
+    Route::prefix("receptionists")->middleware(["role:admin|manager"])->group(function (){
+
+        Route::get('/index', [ReceptionistController::class, 'index'])->name('receptionists.index');
+
+        Route::get('/create', [ReceptionistController::class, 'create'])->name('receptionists.create');
+
+        Route::post('/', [ReceptionistController::class, 'store'])->name('receptionists.store');
+
+        Route::get('/{receptionists}/edit', [ReceptionistController::class, 'edit'])
+            ->name('receptionists.edit');
+
         Route::put('/{receptionist_id}', [ReceptionistController::class, 'update'])
-            ->name('receptionist.update');
-        Route::delete('/{receptionist_id}' , [ReceptionistController::class, 'destroy'])->name('receptionist.destroy');
+            ->name('receptionists.update');
+
+        Route::delete('/{receptionist}' , [ReceptionistController::class, 'destroy'])
+            ->name('receptionists.destroy');
+
+        Route::put('/{receptionist}/ban',[ReceptionistController::class ,'ban'] )
+            ->name('receptionists.ban');
+
     });
 
-    Route::prefix("reservation")->group(function () {
-        Route::get('/index', [ClientReservationController::class, 'index'])->name('reservations.index');
-        Route::get('/create', [ClientReservationController::class, 'create'])->name('reservations.create');
+    Route::prefix("floors")->middleware(["role:admin|manager"])->group(function (){
+
+        Route::get('/index', [FloorController::class, 'index'])->name('floors.index');
+
+        Route::get('/create', [FloorController::class, 'create'])->name('floors.create');
+
+        Route::get('/{floor}/edit', [FloorController::class, 'edit'])->name('floors.edit');
+
+        Route::put('/{floor}', [FloorController::class, 'update'])->name('floors.update');
+
+        Route::get('/{floor}', [FloorController::class, 'destroy'])->name('floors.destroy');
+
+        Route::post('/', [FloorController::class, 'store'])->name('floors.store');
 
     });
+
+    // Route::prefix("reservation")->group(function () {
+    //     Route::get('/index', [ClientReservationController::class, 'index'])->name('reservations.index');
+    //     Route::get('/create', [ClientReservationController::class, 'create'])->name('reservations.create');
+
+    // });
 
 });
 
@@ -65,3 +94,5 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/reservation/index', [ClientReservationController::class, 'index'])->name('clientLogin');
 Route::get('/reservation/register', [ClientReservationController::class, 'register'])->name('clientRegister');
+
+Route::post('/reservation/register', [ClientReservationController::class, 'register'])->name('clientRegister');

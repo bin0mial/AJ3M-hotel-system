@@ -34,6 +34,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route("home") }}" class="nav-link">Home</a>
                 </li>
+                <div class="nav-item d-none d-sm-inline-block" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </div>
             </ul>
 
             <!-- Right navbar links -->
@@ -172,8 +183,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         @endhasanyrole
                         {{-- RECEPTCINIST --}}
                          @hasanyrole('admin|manager')
-                        <li class="nav-item menu-close">
-                            <a href="#" class="nav-link">
+                        @php($currentRoute = Route::currentRouteName())
+                        @php($active = str_starts_with($currentRoute, "receptionists"))
+                        <li class="nav-item menu-{{$active? "open": "close"}}">
+                            <a href="#" class="nav-link @if($active) active @endif">
                                 <i class="nav-icon fas fa-user-cog"></i>
                                 <p>
                                     Receptionist Control
@@ -182,24 +195,50 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('receptionist.index')}}" class="nav-link">
+                                    <a href="{{route('receptionists.index')}}" class="nav-link {{$currentRoute=="receptionists.index"?"active": ""}}">
                                         <i class="nav-icon fas fa-book"></i>
                                         <p>All receptionists</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href=" {{route('receptionist.create')}} " class="nav-link">
+                                    <a href=" {{route('receptionists.create')}} " class="nav-link {{$currentRoute=="receptionists.create"?"active": ""}}">
                                         <i class="nav-icon fas fa-edit"></i>
                                         <p>Create receptionist</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+                        {{-- FLOORS CONTROLL --}}
+                        @php($currentRoute = Route::currentRouteName())
+                        @php($active = str_starts_with($currentRoute, "floors"))
+                        <li class="nav-item menu-{{$active? "open": "close"}}">
+                            <a href="#" class="nav-link  @if($active) active @endif">
+                                <i class="nav-icon fas fa-hotel"></i>
+                                <p>
+                                    Manage Floors
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('floors.index')}}" class="nav-link {{$currentRoute=="floors.index"?"active": ""}}">
+                                        <i class="nav-icon fas fa-book"></i>
+                                        <p>All Floors</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href=" {{route('floors.create')}} " class="nav-link {{$currentRoute=="floors.create"?"active": ""}}">
+                                        <i class="nav-icon fas fa-plus-square"></i>
+                                        <p>Create Floor</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         @endhasanyrole
                         {{-- CLIENT  --}}
-                        {{-- @role('receptionist') --}}
+                        {{-- @role('receptionists') --}}
                         <li class="nav-item menu">
-                            <a href="#" class="nav-link active">
+                            <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user-friends"></i>
                                 <p>
                                     Client Control
@@ -209,7 +248,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 {{-- @role('role') --}}
                                 <li class="nav-item">
-                                    <a href="{{route('receptionist.index')}}" class="nav-link">
+                                    <a href="{{route('receptionists.index')}}" class="nav-link">
                                         <i class="nav-icon fas fa-book"></i>
                                         <p>All clients</p>
                                     </a>
