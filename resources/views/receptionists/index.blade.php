@@ -32,7 +32,7 @@
         }
         const banButton = (url, name, table) => {
             console.log(table);
-            if (confirm(`Are you sure you want to ban ${name}, permanently`)){
+
                 const data = {
                     _method: "PUT",
                     _token: "{{ csrf_token() }}"
@@ -56,7 +56,7 @@
                         alert(jqXhr.responseText)
                     },
                 });
-            }
+
         }
     </script>
 @endpush
