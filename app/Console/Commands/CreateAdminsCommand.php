@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 
-class CreateAdmins extends Command
+class CreateAdminsCommand extends Command
 {
     /**
      * The name and signature of the console command.
