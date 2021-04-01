@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Receptionist;
+use App\Models\Manager;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Html\Button;
@@ -47,19 +48,19 @@ class ReceptionistDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('receptionists-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->lengthMenu()
-            ->dom('Blfrtip')
-            ->orderBy(1)
-            ->buttons(
-                Button::make('create'),
-                Button::make('export'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload'),
-            );
+        ->setTableId('receptionist-table')
+        ->columns($this->getColumns())
+        ->minifiedAjax()
+        ->lengthMenu()
+        ->dom('Blfrtip')
+        ->orderBy(1)
+        ->buttons(
+            Button::make('create'),
+            Button::make('export'),
+            Button::make('print'),
+            Button::make('reset'),
+            Button::make('reload'),
+        );
 
     }
 
@@ -71,7 +72,7 @@ class ReceptionistDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('user.id')->title("Receptionist ID"),
+            Column::make('id')->title("Receptionist ID"),
             Column::make('user.name')->title("Name"),
             Column::make('user.email')->title("Email"),
             Column::make('user.national_id')->title("National ID"),
@@ -81,19 +82,35 @@ class ReceptionistDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')
+                ->addClass("w-25")
         ];
     }
 
     protected function getReceptionistActionColumn($data)
     {
+        $ban_unban = null;
+
         if (Auth::user()->hasRole('admin') || $data->manager_id == Auth::user()->manager->id) {
-            $edit = route("receptionists.edit" , [$data->id]);
+            $edit   = route("receptionists.edit" , [$data->id]);
             $delete = route("receptionists.destroy" ,[$data->id]);
+            $ban    = route("receptionists.ban" ,[$data->id]);
             $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
-            return "<div class='d-flex'>"
+            if ($data->user->hasRole('ban')){
+                $ban_unban = "<a class='btn btn-success ml-1'
+                    onclick='banButton(\"$ban\", \"{$data->name}\" , \"$current_datatable\")'>Unban</a>";
+            } else {
+                $ban_unban = "<a class='btn btn-warning ml-1'
+                    onclick='banButton(\"$ban\", \"{$data->name}\" , \"$current_datatable\")'>Ban</a>";
+            }
+            $html = "<div class='d-flex w-100  justify-content-center'>"
                 . "<a class='btn btn-info' href='$edit'>Edit</a>"
-                . "<a class='btn btn-warning ml-1'href='$delete'>Ban</a>"
-                . "<a id='$data->id' class='btn btn-danger ml-1' onclick='deleteButton(\"$delete\"), \"{$data->user->name }\", \"$current_datatable\"'>Delete</a>"
+                . $ban_unban
+                . "<a class='btn btn-danger ml-1' onclick='deleteButton(\"$delete\", \"{$data->name}\" , \"$current_datatable\")'>Delete</a>"
+                . "</div>";
+            return $html;
+
+        }
+    }
 
 //                ."<button type='button' class='btn btn-danger ml-1' data-toggle='modal' data-target='#delete$data->id'>"
 //                ."Delete"
@@ -120,10 +137,8 @@ class ReceptionistDataTable extends DataTable
 //                        ."</div>"
 //                    ."</div>"
 //                ."</div>"
-                . "</div>";
 
-        }
-    }
+
 
     /**
      * Get filename for export.

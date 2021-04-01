@@ -19,17 +19,15 @@
                         <label>Manger:<span class="text-danger">*</span></label>
                         <select name="manager_id" class="form-control">
                             <option selected disabled value="">Select a name:</option>
-                            {{-- @foreach ($users as $user) --}}
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            {{-- @endforeach --}}
+                            @foreach ($managers as $manager)
+                                <option value="{{ $manager->id }}">{{ $manager->id }} {{ $manager->user->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
+                <h3 class="mx-auto">Receptcionist Info</h3>
                 @endrole
 
-                <h3 class="mx-auto">Receptionist Info</h3>
                 <x-forms.input name="name" type="text" placeholder="Enter Name" :value="old('name')" required="true"/>
                 <x-forms.input name="email" type="email" placeholder="Enter email" :value="old('email')" required="true"/>
                 <x-forms.input name="national_id" type="text" placeholder="Enter national id" :value="old('national_id')" required="true"/>

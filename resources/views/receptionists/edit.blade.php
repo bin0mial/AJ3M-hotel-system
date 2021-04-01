@@ -11,15 +11,6 @@
         <form class="w-75 m-auto"  method="POST" action="{{ route('receptionists.update' , [$receptionist->id] ) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             <div class="card-body">
                 @role('admin')
                 <h3>Manager Info</h3>
@@ -28,16 +19,15 @@
                         <label>Manger:<span class="text-danger">*</span></label>
                         <select name="manager_id" class="form-control">
                             <option selected disabled value="">Select a name:</option>
-                            {{-- @foreach ($users as $user) --}}
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            {{-- @endforeach --}}
+                             @foreach ($managers as $manager)
+                            <option value="{{ $manager->id }}">{{ $manager->id }} {{ $manager->user->name }}</option>
+                             @endforeach
                         </select>
                     </div>
                 </div>
-                @endrole
                 <h3 class="mx-auto">Receptcionist Info</h3>
+                @endrole
+
                 <div class="form-group">
                     <label>Name</label>
                     <input type="text" class="form-control" name="recept_name" placeholder="Enter name"
