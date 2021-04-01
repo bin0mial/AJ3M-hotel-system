@@ -51,11 +51,11 @@ Route::group(['middleware' => 'auth'],function () {
         Route::delete('/{receptionist_id}' , [ReceptionistController::class, 'destroy'])->name('receptionist.destroy');
     });
 
-    Route::prefix("reservation")->group(function () {
-        Route::get('/index', [ClientReservationController::class, 'index'])->name('reservations.index');
-        Route::get('/create', [ClientReservationController::class, 'create'])->name('reservations.create');
+    // Route::prefix("reservation")->group(function () {
+    //     Route::get('/index', [ClientReservationController::class, 'index'])->name('reservations.index');
+    //     Route::get('/create', [ClientReservationController::class, 'create'])->name('reservations.create');
 
-    });
+    // });
 
 });
 
@@ -65,3 +65,5 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/reservation/index', [ClientReservationController::class, 'index'])->name('clientLogin');
 Route::get('/reservation/register', [ClientReservationController::class, 'register'])->name('clientRegister');
+
+Route::post('/reservation/register', [ClientReservationController::class, 'register'])->name('clientRegister');
