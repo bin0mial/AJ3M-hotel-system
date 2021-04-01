@@ -14,10 +14,8 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson() && $request->getRequestUri() != '/reservation/index') {
+        if (! $request->expectsJson()) {
             return route('login');
-        }else{
-            return route('clientLogin');
         }
     }
 }
