@@ -86,8 +86,44 @@ class ReceptionistDataTable extends DataTable
 
     protected function getReceptionistActionColumn($data)
     {
+<<<<<<< HEAD
         // if ($data->manager_id == Auth::user()->manager->id || Auth::user()->hasRole('admin')) {
            
+=======
+        if ($data->manager_id == Auth::user()->manager->id || Auth::user()->hasRole('admin')) {
+            $edit = route("receptionist.edit" , [$data->id]);
+            $delete = route("receptionist.index");
+            return "<div class='d-flex'>"
+                . "<a class='btn btn-info' href='$edit'>Edit</a>"
+                . "<a class='btn btn-warning ml-1' href='$delete'>Ban</a>"
+
+                ."<button type='button' class='btn btn-danger ml-1' data-toggle='modal' data-target='#delete$data->id'>"
+                ."Delete"
+                ."</button>"
+                ."<div class='modal fade' id='delete$data->id' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>"
+                    ."<div class='modal-dialog modal-dialog-centered'>"
+                            ."<div class='modal-content'>"
+                                ."<div class='modal-header'>"
+                                    ."<h5 class='modal-title  text-dark' id='exampleModalLabel'>"
+                                    ."Are you sure you want to delete this receptionist ?"
+                                    ."</h5>"
+                                    ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                    ."<span aria-hidden='true'>&times;</span>"
+                                    ."</button>"
+                                ."</div>"
+                                ."<div class='modal-footer'>"
+                                ."<form class='d-inline' method='POST' action='$delete'>"
+                                    ."'@csrf'"
+                                    ."'@method('DELETE')'"
+                                    ."<button class='btn btn-danger' type='submit'>Yes ,delete</button>"
+                                ."</form>"
+                                ."<button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>"
+                            ."</div>"
+                        ."</div>"
+                    ."</div>"
+                ."</div>"
+                . "</div>";
+>>>>>>> 7dbdc29a34d1062777c0569a19c74e2b690b2393
 
         // }
         $edit = route("manager.index");

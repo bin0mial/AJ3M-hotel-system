@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreReceptRequest extends FormRequest
+class ReceptionistUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,14 @@ class StoreReceptRequest extends FormRequest
      */
     public function rules()
     {
+//        dd($this->receptionist_id);
+        $user_id = $this->receptionist;
         return [
-            'recept_name'           => ['required' ,'min:2'],
-            'recept_email'          => ['required' ,'email' ,'unique:users,email'],
+            'recept_name'           => ['min:2'],
+//            'recept_email'          => ['email' ,'unique:users,email', 'exists:users,email','unique:users,email,'.$user_id],
             // 'recept_national_id'   => ['required' ,'min:14' ,'max:14'],
             'recept_image'          => ['image'],
-            'recept_password'       => ['required' ,'min:4'],
+//            'recept_password'       => ['min:4'],
         ];
     }
 }
