@@ -40,6 +40,9 @@ class User extends Authenticatable
         return $this->hasOne(Receptionist::class);
     }
 
+    public function client(){
+        return $this->hasOne(Client::class);
+    }
     /**
      * The attributes that should be hidden for arrays.
      *
