@@ -267,6 +267,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.content-header -->
 
             <!-- Main content -->
+
+            @if(session()->has("warning"))
+                <div class="alert alert-warning">
+                    <ul>
+                        @foreach (session()->get("warning") as $warning)
+                            <li>{!! $warning !!}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if(session()->has("error"))
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach (session()->get("error") as $error)
+                            <li>{!! $error !!}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             @if(session()->has("success"))
                 <div class="alert alert-success">
                     <ul>

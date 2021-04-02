@@ -20,7 +20,7 @@
                         <select name="manager_id" class="form-control">
                             <option selected disabled value="">Select a name:</option>
                             @foreach ($managers as $manager)
-                                @if($manager->id == Auth::user()->id)
+                                @if($manager->id == $room->manager_id)
                                     <option selected value="{{ $manager->id }}">{{ $manager->id }}- {{ $manager->user->name }}</option>
                                 @else
                                     <option value="{{ $manager->id }}">{{ $manager->id }}- {{ $manager->user->name }}</option>
