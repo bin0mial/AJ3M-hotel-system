@@ -29,18 +29,20 @@ class RoomController extends Controller
         $valid = $request->validated();
         $valid["reserved"] = 0;
         $valid["manager_id"] = $manager_id;
-//        dd($valid);
         Room::create($valid);
         return redirect()->back()->with(["success" => ["message" => "Room Created Successfully <i class='fas fa-smile-beam'></i>"]]);
     }
 
     public function edit(Room $room){
-        return view('rooms.edit' ,[
-            "room"           =>  $room,
-            "room_manager"   =>   Manager::find($room->manager_id),
-            "managers"       =>  Manager::all(),
-            "floors"         =>  Floor::all(),
-        ]);
+        if (Auth::user()->hasRole('admin') || $room->manager_id == Auth::user()->manager->id){
+            return view('rooms.edit' ,[
+                "room"           =>  $room,
+                "room_manager"   =>   Manager::find($room->manager_id),
+                "managers"       =>  Manager::all(),
+                "floors"         =>  Floor::all(),
+            ]);
+        }
+        return redirect()->route('rooms.index')->with(["error" => ["message" => "Unauthorized Action <i class='fas fa-ban'></i>"]]);
     }
 
     public function update(UpdateRoomRequest $request ,Room $room){

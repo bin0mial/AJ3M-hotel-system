@@ -99,7 +99,8 @@ class RoomDataTable extends DataTable
 
     protected function getRoomActionColumn($data)
     {
-        if (Auth::user()->hasRole('admin') || $data->manager->id == Auth::user()->id) {
+//        dd($data->manager->id);
+        if (Auth::user()->hasRole('admin') || $data->manager->id == Auth::user()->manager->id) {
             $edit = route("rooms.edit", [$data->id]);
             $delete = route("rooms.destroy", $data->id);
             $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
