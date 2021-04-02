@@ -55,4 +55,13 @@ class FloorController extends Controller
         return redirect()->route('floors.index')->with(["success" => ["message" => "Floor Updated Successfully"]]);
     }
 
+    public function destroy(Floor $floor){
+        try {
+            $floor->delete();
+        } catch (\Exception $exception) {
+            return response("Please remove rooms in this floor first")->setStatusCode(400);
+        }
+        return response("deleted successfully");
+    }
+
 }

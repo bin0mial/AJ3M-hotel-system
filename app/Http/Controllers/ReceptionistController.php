@@ -64,8 +64,9 @@ class ReceptionistController extends Controller
             return redirect()->route('receptionists.index')
                 ->with(["danger" => ["warning" => "Receptionist Deleted Successfully"]]);
         }
-        return redirect()->route('receptionists.index')
-            ->with(["error" => ["message" => "Unauthorized Action <i class='fas fa-ban'></i>"]]);
+//        return redirect()->route('receptionists.index')
+//            ->with(["error" => ["message" => "Unauthorized Action <i class='fas fa-ban'></i>"]]);
+        return response("Unauthorized Action");
     }
 
     public function ban(Receptionist $receptionist){
