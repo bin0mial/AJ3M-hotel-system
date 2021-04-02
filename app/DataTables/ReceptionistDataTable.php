@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Receptionist;
+use App\Models\Manager;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Html\Button;
@@ -47,19 +48,19 @@ class ReceptionistDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('users-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->lengthMenu()
-            ->dom('Blfrtip')
-            ->orderBy(1)
-            ->buttons(
-                Button::make('create'),
-                Button::make('export'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload'),
-            );
+        ->setTableId('receptionist-table')
+        ->columns($this->getColumns())
+        ->minifiedAjax()
+        ->lengthMenu()
+        ->dom('Blfrtip')
+        ->orderBy(1)
+        ->buttons(
+            Button::make('create'),
+            Button::make('export'),
+            Button::make('print'),
+            Button::make('reset'),
+            Button::make('reload'),
+        );
 
     }
 
@@ -72,7 +73,7 @@ class ReceptionistDataTable extends DataTable
     {
         
         return [
-            Column::make('user.id')->title("ID"),
+            Column::make('id')->title("Receptionist ID"),
             Column::make('user.name')->title("Name"),
             Column::make('user.email')->title("Email"),
             Column::make('user.national_id')->title("National ID"),
@@ -82,44 +83,32 @@ class ReceptionistDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')
+                ->addClass("w-25")
         ];
     }
 
     protected function getReceptionistActionColumn($data)
     {
-        if ($data->manager_id == Auth::user()->manager->id || Auth::user()->hasRole('admin')) {
-            $edit = route("receptionist.edit" , [$data->id]);
-            $delete = route("receptionist.index");
-            return "<div class='d-flex'>"
-                . "<a class='btn btn-info' href='$edit'>Edit</a>"
-                . "<a class='btn btn-warning ml-1' href='$delete'>Ban</a>"
+        $ban_unban = null;
 
-                ."<button type='button' class='btn btn-danger ml-1' data-toggle='modal' data-target='#delete$data->id'>"
-                ."Delete"
-                ."</button>"
-                ."<div class='modal fade' id='delete$data->id' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>"
-                    ."<div class='modal-dialog modal-dialog-centered'>"
-                            ."<div class='modal-content'>"
-                                ."<div class='modal-header'>"
-                                    ."<h5 class='modal-title  text-dark' id='exampleModalLabel'>"
-                                    ."Are you sure you want to delete this receptionist ?"
-                                    ."</h5>"
-                                    ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
-                                    ."<span aria-hidden='true'>&times;</span>"
-                                    ."</button>"
-                                ."</div>"
-                                ."<div class='modal-footer'>"
-                                ."<form class='d-inline' method='POST' action='$delete'>"
-                                    ."'@csrf'"
-                                    ."'@method('DELETE')'"
-                                    ."<button class='btn btn-danger' type='submit'>Yes ,delete</button>"
-                                ."</form>"
-                                ."<button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>"
-                            ."</div>"
-                        ."</div>"
-                    ."</div>"
-                ."</div>"
+        if (Auth::user()->hasRole('admin') || $data->manager_id == Auth::user()->manager->id) {
+            $edit   = route("receptionists.edit" , [$data->id]);
+            $delete = route("receptionists.destroy" ,[$data->id]);
+            $ban    = route("receptionists.ban" ,[$data->id]);
+            $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
+            if ($data->user->hasRole('ban')){
+                $ban_unban = "<a class='btn btn-success ml-1'
+                    onclick='banButton(\"$ban\", \"{$data->name}\" , \"$current_datatable\")'>Unban</a>";
+            } else {
+                $ban_unban = "<a class='btn btn-warning ml-1'
+                    onclick='banButton(\"$ban\", \"{$data->name}\" , \"$current_datatable\")'>Ban</a>";
+            }
+            $html = "<div class='d-flex w-100  justify-content-center'>"
+                . "<a class='btn btn-info' href='$edit'>Edit</a>"
+                . $ban_unban
+                . "<a class='btn btn-danger ml-1' onclick='deleteButton(\"$delete\", \"{$data->name}\" , \"$current_datatable\")'>Delete</a>"
                 . "</div>";
+            return $html;
 
         // }
         $edit = route("manager.index");
@@ -129,6 +118,34 @@ class ReceptionistDataTable extends DataTable
             . "<a class='btn btn-danger ml-2' href='$delete'>Delete</a>"
             . "</div>";
     }
+
+//                ."<button type='button' class='btn btn-danger ml-1' data-toggle='modal' data-target='#delete$data->id'>"
+//                ."Delete"
+//                ."</button>"
+//                ."<div class='modal fade' id='Rdelete$data->id' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>"
+//                    ."<div class='modal-dialog modal-dialog-centered'>"
+//                            ."<div class='modal-content'>"
+//                                ."<div class='modal-header'>"
+//                                    ."<h5 class='modal-title  text-dark' id='exampleModalLabel'>"
+//                                    ."Are you sure you want to delete this receptionists ?"
+//                                    ."</h5>"
+//                                    ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+//                                    ."<span aria-hidden='true'>&times;</span>"
+//                                    ."</button>"
+//                                ."</div>"
+//                                ."<div class='modal-footer'>"
+//                                ."<form class='d-inline' method='DELETE' action='$delete'>"
+//                                    ."<meta name='csrf-token' content='{{ csrf_token() }}'>"
+//                                    ."{{ method_field('DELETE') }}"
+//                                    ."<button class='btn btn-delete btn-danger ' onclick='delete_recept(event)'  id='$data->id' type='submit'>Yes ,delete</button>"
+//                                ."</form>"
+//                                ."<button type='button' class='btn btn-secondary ml-1' data-dismiss='modal'>Cancel</button>"
+//                            ."</div>"
+//                        ."</div>"
+//                    ."</div>"
+//                ."</div>"
+
+
 
     /**
      * Get filename for export.

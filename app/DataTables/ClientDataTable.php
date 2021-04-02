@@ -35,7 +35,7 @@ class ClientDataTable extends DataTable
      */
     public function query(Client $model)
     {
-        return $model->newQuery()->with(["user"]);
+        return $model->newQuery()->with('user')->select('clients.*')->where('approval','false');
        
     }
 
@@ -47,7 +47,7 @@ class ClientDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('users-table')
+                    ->setTableId('client-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
@@ -72,9 +72,9 @@ class ClientDataTable extends DataTable
             
             Column::make('user.name')->title("Name"),
             Column::make('user.email')->title("Email"),
-            Column::make('client.mobile')->title("Mobile"),
-            Column::make('client.country')->title("Country"),
-            Column::make('client.gender')->title("Gender"),
+            Column::make('mobile')->title("Mobile"),
+            Column::make('country')->title("Country"),
+            Column::make('gender')->title("Gender"),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -97,23 +97,15 @@ class ClientDataTable extends DataTable
 
     protected function getClientActionColumn($data)
     {
-        if ($data->receptionist_id == null) {
+        if ($data->receptionist_id == null && $data->approval == 'false') {
            
-        
-           
-            return "<div class='d-flex'>"
-            ."<a  href='{{ route('client/apply',$data->id)}}' class='btn btn-warning'>Apply</a>"
-            ."<div class='form-group'>'
-            
-            ."<select name ='user_id' class ='form-control' id='post_creator'>"
-            ."@foreach ($users as $user)"
-                ."<option value='{{$user->id}}'>{{$user->name}}</option>"
-              ."@endforeach"
-            ."</select>"
-            ."</div>"
-                
+            $accept = route("client.accept", [$data->id]);
+            $delete = route("client.destroy", $data->id);
+            $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
+            return "<div class='d-flex  justify-content-center'>"
+                . "<a class='btn btn-warning' href='$accept'>Accept</a>"
+                . "<button class='btn btn-danger ml-2 delete-user' onclick='deleteButton(\"$delete\", \"{$data->user->name }\", \"$current_datatable\")'>Delete</button>";
 
-            ."</div>";
         }
     }
 }

@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ApprovedClientsDataTable;
 use App\DataTables\ClientDataTable;
-use App\Models\ApprovedClients;
+use App\DataTables\ClientReservationDataTable;
+use App\Http\Requests\UpdateClientApprovalRequest;
 use App\Models\Client;
+use App\Models\Receptionist;
+use App\Models\User;
+use App\Notifications\ClientApprovedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Http\Request\ShowClientReservation;
 use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
-    public function index (ApprovedClients $DataTable){
+    public function index (ApprovedClientsDataTable $DataTable){
         return $DataTable->render("client.index");
     }
     
@@ -18,95 +24,55 @@ class ClientController extends Controller
         return $DataTable->render("client.pending");
     }
 
-
-    public function apply($id)
+    public function get_Reservation(ClientReservationDataTable $DataTable)
     {
-         
-         
-        $client = Client::find($id);
+      
+        return $DataTable->render("client.reservation");
 
-   
-        if($client){
-            $client->receptionist_id =Auth::user()->hasRole('receptionist')? Auth::user()->receptionist->id : $request->receptionist_id;
-            $client->save();
-        }
+    }
+
+
+    public function accept(Client $client)
+    {
         
-    // /**
-    //  * Display a listing of the resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
+        $receptionists = Receptionist::all();
+    
+        return view('client.accept',[
+            'client' => $client,
+            'receptionists' => $receptionists
+        ]);
+    }
 
-    // // public function index()     //get all clients
-    // // {
-    // //     //
-    // // }
 
-    // /**
-    //  * Show the form for creating a new resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function create()    // add a new client
-    // {
-    //     //
-    // }
+    public function update(Client $client,UpdateClientApprovalRequest $request) 
+    {
+        if(!$client->approval){
+            $client->user->notify(new ClientApprovedNotification($client->user));
+        }
+        $requestData = $request->all();   
+        $requestData['approval'] = true;
+        $requestData['receptionist_id'] = Auth::user()->receptionist->id;
+        $client->update($requestData);
+        return redirect()->route('client.index');
+    }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
 
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function show($id)       // get a specific client
-    // {
-    //     //
-    // }
+    public function destroy(Client $client)
+    {
+        
+        $user = $client->user();
+        try {
+            if ($client->delete()) {
+                $user->delete();
+            }
+        } catch (\Exception $exception) {
+            return response($exception->getMessage())->setStatusCode(400);
+        }
+        return response("Deleted Successfully");
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit($id)       // edit a specific client
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(Request $request, $id)       // update a specific client
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)        // delete a specific client
-    // {
-    //     //
-    // }
+    }
+        
+    
 }
 
 

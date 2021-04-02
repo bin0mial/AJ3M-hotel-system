@@ -1,13 +1,17 @@
 <?php
 
 namespace App\DataTables;
-
+use App\Models\User;
 use App\Models\Client;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+
+
+
 
 class ApprovedClientsDataTable extends DataTable
 {
@@ -21,10 +25,12 @@ class ApprovedClientsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'client.action');
+            ->addColumn('action','approvedclients.action');
     }
 
-    
+
+
+
 
     /**
      * Get query source of dataTable.
@@ -34,15 +40,18 @@ class ApprovedClientsDataTable extends DataTable
      */
     public function query(Client $model)
     {
-        if ($data->approval == Auth::user()->receptionist->id || Auth::user()->hasRole('admin')) {
-            //return $model->newQuery()->with(["user"])->select("receptionists.*");
-            return $model->newQuery();
-        }
-        else
-        {
-            //
-        }
+             $is_receptionist = Auth::user()->hasRole('receptionist') ;
+            return $model->newQuery()->with('user')->select('clients.*')->where('approval','true')
+            ->when($is_receptionist,function($query , $is_receptionist ){
+
+                 return $query->where('receptionist_id',Auth::user()->receptionist->id);
+
+            });
+
+      
     }
+    
+
 
     /**
      * Optional method if you want to use html builder.
@@ -78,14 +87,14 @@ class ApprovedClientsDataTable extends DataTable
             
             Column::make('user.name')->title("Name"),
             Column::make('user.email')->title("Email"),
-            Column::make('client.mobile')->title("Mobile"),
-            Column::make('client.country')->title("Country"),
-            Column::make('client.gender')->title("Gender"),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center')
+            Column::make('mobile')->title("Mobile"),
+            Column::make('country')->title("Country"),
+            Column::make('gender')->title("Gender"),
+            // Column::computed('action')
+            //     ->exportable(false)
+            //     ->printable(false)
+            //     ->width(60)
+            //     ->addClass('text-center')
         ];
     }
 
@@ -98,4 +107,10 @@ class ApprovedClientsDataTable extends DataTable
     {
         return 'ApprovedClients_' . date('YmdHis');
     }
+
+   
+
+    
+
+
 }

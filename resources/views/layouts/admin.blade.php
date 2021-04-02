@@ -236,12 +236,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         @endhasanyrole
                         {{-- CLIENT  --}}
-<<<<<<< HEAD
-                        {{-- @role('receptionist') --}}
-                    {{-- @hasanyrole('admin|manager|receptionist') --}}
-=======
                         {{-- @role('receptionists') --}}
->>>>>>> 27ac15c5714c6364d5a80f8542245e60da2f3742
                         <li class="nav-item menu">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user-friends"></i>
@@ -253,17 +248,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 {{-- @role('role') --}}
                                 <li class="nav-item">
-<<<<<<< HEAD
                                     <a href="{{route('client.index')}}" class="nav-link">
-=======
-                                    <a href="{{route('receptionists.index')}}" class="nav-link">
->>>>>>> 27ac15c5714c6364d5a80f8542245e60da2f3742
                                         <i class="nav-icon fas fa-book"></i>
                                         <p>Approved Clients</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href=" {{--route('client.reservation')--}} " class="nav-link">
+                                    <a href=" {{route('client.reservation')}} " class="nav-link">
                                         <i class="nav-icon fas fa-edit"></i>
                                         <p>Clients Reservations</p>
                                     </a>
