@@ -196,13 +196,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{route('receptionists.index')}}" class="nav-link {{$currentRoute=="receptionists.index"?"active": ""}}">
-                                        <i class="nav-icon fas fa-book"></i>
+                                        <i class="nav-icon fas fa-users"></i>
                                         <p>All receptionists</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href=" {{route('receptionists.create')}} " class="nav-link {{$currentRoute=="receptionists.create"?"active": ""}}">
-                                        <i class="nav-icon fas fa-edit"></i>
+                                        <i class="nav-icon fas fa-plus"></i>
                                         <p>Create receptionist</p>
                                     </a>
                                 </li>
@@ -230,6 +230,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <a href=" {{route('floors.create')}} " class="nav-link {{$currentRoute=="floors.create"?"active": ""}}">
                                         <i class="nav-icon fas fa-plus-square"></i>
                                         <p>Create Floor</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {{-- ROOMS CONTROLL --}}
+                        @php($currentRoute = Route::currentRouteName())
+                        @php($active = str_starts_with($currentRoute, "rooms"))
+                        <li class="nav-item menu-{{$active? "open": "close"}}">
+                            <a href="#" class="nav-link  @if($active) active @endif">
+                                <i class="nav-icon fas fa-building"></i>
+                                <p>
+                                    Manage Rooms
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('rooms.index')}}" class="nav-link {{$currentRoute=="rooms.index"?"active": ""}}">
+                                        <i class="nav-icon fas fa-home"></i>
+                                        <p>All Rooms</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href=" {{route('rooms.create')}} " class="nav-link {{$currentRoute=="rooms.create"?"active": ""}}">
+                                        <i class="nav-icon fas fa-plus-square"></i>
+                                        <p>Create Room</p>
                                     </a>
                                 </li>
                             </ul>
@@ -276,7 +303,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="alert alert-success">
                     <ul>
                         @foreach (session()->get("success") as $success)
-                            <li>{{ $success }}</li>
+                            <li>{!! $success !!}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -285,7 +312,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="alert alert-danger">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li>{!! $error !!}</li>
                         @endforeach
                     </ul>
                 </div>

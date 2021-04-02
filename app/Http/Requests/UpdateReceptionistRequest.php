@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
-class ReceptionistUpdateRequest extends FormRequest
+class UpdateReceptionistRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +25,13 @@ class ReceptionistUpdateRequest extends FormRequest
      */
     public function rules()
     {
-//        dd($this->receptionist_id);
         return [
             'recept_name'           => ['min:2'],
             'recept_email'          => ['required' ,'email' ,'unique:users,email,'.$this->receptionist_id],
-//             'recept_national_id'   => ['sometimes' ,'min:14' ,'max:14'],
+            'recept_national_id'   => ['sometimes' ,'digits:14'],
             'recept_image'          => ['image'],
 //            'recept_password'       => ['min:4'],
+            "manager_id"    => Rule::requiredIf(!Auth::user()->hasRole('manager')),
         ];
     }
 }

@@ -24,9 +24,9 @@ class StoreFloorRequest extends FormRequest
     public function rules()
     {
         return [
-            "name"      => ["required" ,"min:3"],
-            "number"    => ["required" ,"unique:floors,number"],
-            "manager_id"    => ["required" , "exists:managers,user_id"]
+            "name"          => ["required" ,"min:3"],
+            "number"        => ["required" ,"unique:floors,number"],
+            "manager_id"    => ["required" ,"exists:managers,user_id"]
         ];
     }
 }

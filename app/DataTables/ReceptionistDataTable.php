@@ -53,7 +53,7 @@ class ReceptionistDataTable extends DataTable
         ->minifiedAjax()
         ->lengthMenu()
         ->dom('Blfrtip')
-        ->orderBy(1)
+        ->orderBy(0)
         ->buttons(
             Button::make('create'),
             Button::make('export'),
@@ -72,7 +72,7 @@ class ReceptionistDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id')->title("Receptionist ID"),
+            Column::make('user.id')->title("Receptionist ID"),
             Column::make('user.name')->title("Name"),
             Column::make('user.email')->title("Email"),
             Column::make('user.national_id')->title("National ID"),
@@ -102,41 +102,40 @@ class ReceptionistDataTable extends DataTable
                 $ban_unban = "<a class='btn btn-warning ml-1'
                     onclick='banButton(\"$ban\", \"{$data->name}\" , \"$current_datatable\")'>Ban</a>";
             }
+
+            $delete_btn =
+                "<button type='button' class='btn btn-danger ml-1' data-toggle='modal' data-target='#Rdelete$data->id'>Delete</button>"
+                ."<div class='modal fade' id='Rdelete$data->id' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>"
+                    ."<div class='modal-dialog modal-dialog-centered'>"
+                            ."<div class='modal-content'>"
+                                ."<div class='modal-header'>"
+                                    ."<h5 class='modal-title  text-dark' id='exampleModalLabel'>"
+                                    ."<span class='text-danger'><i class='fas fa-exclamation-triangle'></i><i class='fas fa-times-circle'></i></span> Warning "
+                                    ."</h5>"
+                                    ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                    ."<span aria-hidden='true'>&times;</span>"
+                                    ."</button>"
+                                ."</div>"
+                                ."<div class='modal-body'>Are you sure you want to <span class='text-danger'>delete Receptionist: $data->name</span> ? </div>"
+                                ."<div class='modal-footer'>"
+                                        ."<a class='btn btn-delete btn-danger '  onclick='deleteRButton(\"$delete\", \"{$data->name}\" , \"$current_datatable\")'  id='$data->id' type='submit'>Yes ,delete</a>"
+                                    ."<button type='button' class='btn btn-secondary ml-1' data-dismiss='modal'>Cancel</button>"
+                                ."</div>"
+                        ."</div>"
+                    ."</div>"
+                ."</div>";
+
             $html = "<div class='d-flex w-100  justify-content-center'>"
-                . "<a class='btn btn-info' href='$edit'>Edit</a>"
-                . $ban_unban
-                . "<a class='btn btn-danger ml-1' onclick='deleteButton(\"$delete\", \"{$data->name}\" , \"$current_datatable\")'>Delete</a>"
+                    . "<a class='btn btn-info' href='$edit'>Edit</a>"
+                    . $ban_unban
+                    . $delete_btn
                 . "</div>";
             return $html;
 
         }
     }
 
-//                ."<button type='button' class='btn btn-danger ml-1' data-toggle='modal' data-target='#delete$data->id'>"
-//                ."Delete"
-//                ."</button>"
-//                ."<div class='modal fade' id='Rdelete$data->id' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>"
-//                    ."<div class='modal-dialog modal-dialog-centered'>"
-//                            ."<div class='modal-content'>"
-//                                ."<div class='modal-header'>"
-//                                    ."<h5 class='modal-title  text-dark' id='exampleModalLabel'>"
-//                                    ."Are you sure you want to delete this receptionists ?"
-//                                    ."</h5>"
-//                                    ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
-//                                    ."<span aria-hidden='true'>&times;</span>"
-//                                    ."</button>"
-//                                ."</div>"
-//                                ."<div class='modal-footer'>"
-//                                ."<form class='d-inline' method='DELETE' action='$delete'>"
-//                                    ."<meta name='csrf-token' content='{{ csrf_token() }}'>"
-//                                    ."{{ method_field('DELETE') }}"
-//                                    ."<button class='btn btn-delete btn-danger ' onclick='delete_recept(event)'  id='$data->id' type='submit'>Yes ,delete</button>"
-//                                ."</form>"
-//                                ."<button type='button' class='btn btn-secondary ml-1' data-dismiss='modal'>Cancel</button>"
-//                            ."</div>"
-//                        ."</div>"
-//                    ."</div>"
-//                ."</div>"
+
 
 
 

@@ -3,6 +3,7 @@
 use \App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ReceptionistController;
 use App\Http\Controllers\FloorController;
+use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientReservationController;
@@ -44,7 +45,7 @@ Route::group(['middleware' => 'auth'],function () {
 
     Route::prefix("receptionists")->middleware(["role:admin|manager"])->group(function (){
 
-        Route::get('/index', [ReceptionistController::class, 'index'])->name('receptionists.index');
+        Route::get('/', [ReceptionistController::class, 'index'])->name('receptionists.index');
 
         Route::get('/create', [ReceptionistController::class, 'create'])->name('receptionists.create');
 
@@ -77,6 +78,22 @@ Route::group(['middleware' => 'auth'],function () {
         Route::get('/{floor}', [FloorController::class, 'destroy'])->name('floors.destroy');
 
         Route::post('/', [FloorController::class, 'store'])->name('floors.store');
+
+    });
+
+    Route::prefix("rooms")->middleware(["role:admin|manager"])->group(function (){
+
+        Route::get('/', [RoomController::class, 'index'])->name('rooms.index');
+
+        Route::get('/create', [RoomController::class, 'create'])->name('rooms.create');
+
+        Route::get('/{room}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+
+        Route::put('/{room}', [RoomController::class, 'update'])->name('rooms.update');
+
+        Route::delete('/{room}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+
+        Route::post('/', [RoomController::class, 'store'])->name('rooms.store');
 
     });
 

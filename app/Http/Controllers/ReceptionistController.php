@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ReceptionistDataTable;
+use App\Http\Requests\ReceptionistStoreRequest;
 use App\Http\Requests\ReceptionistUpdateRequest;
+use App\Http\Requests\StoreReceptionistRequest;
 use App\Http\Requests\StoreReceptRequest;
+use App\Http\Requests\UpdateReceptionistRequest;
 use App\Models\Manager;
 use App\Models\Receptionist;
 use App\Models\User;
@@ -23,7 +26,7 @@ class ReceptionistController extends Controller
         ]);
     }
 
-    public function store(StoreReceptRequest $request){
+    public function store(StoreReceptionistRequest $request){
         $user = User::create($request->validated());
         $user->assignRole('receptionist');
         $manager_id = Auth::user()->hasRole('manager') ?  Auth::user()->manager->id : $request->manager_id;
@@ -38,12 +41,12 @@ class ReceptionistController extends Controller
         ]);
     }
 
-    public function update(ReceptionistUpdateRequest $request ,$receptionist_id){
+    public function update(UpdateReceptionistRequest $request ,$receptionist_id){
         User::where('id', $receptionist_id)
             ->update([
-                'name'          => $request['recept_name'],
-                'email'         => $request['recept_email'],
-                'national_id'   => $request['recept_national_id'] ? $request['recept_national_id'] : "",
+                'name'          => $request['name'],
+                'email'         => $request['email'],
+                'national_id'   => $request['national_id'] ? $request['national_id'] : "",
             ]);
         return redirect()->route('receptionists.index')
                 ->with(["success" => ["message" => "Receptionist Updated Successfully"]]);
@@ -54,7 +57,7 @@ class ReceptionistController extends Controller
         Receptionist::find($user->receptionist->id)->delete();
         $user->delete();
         return redirect()->route('receptionists.index')
-                    ->with(["danger" => ["message" => "Receptionist Deleted Successfully"]]);
+                    ->with(["danger" => ["error" => "Receptionist Deleted Successfully"]]);
     }
 
     public function ban($id){
