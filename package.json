@@ -22,7 +22,9 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.3",
         "admin-lte": "^3.1.0",
+        "bootstrap-icons": "^1.4.1",
         "datatables.net": "^1.10.24",
         "datatables.net-bs4": "^1.10.24",
         "datatables.net-buttons-bs4": "^1.7.0",

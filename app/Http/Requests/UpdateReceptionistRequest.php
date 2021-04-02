@@ -25,12 +25,13 @@ class UpdateReceptionistRequest extends FormRequest
      */
     public function rules()
     {
+//        dd($this->request);
         return [
-            'recept_name'           => ['min:2'],
-            'recept_email'          => ['required' ,'email' ,'unique:users,email,'.$this->receptionist_id],
-            'recept_national_id'   => ['sometimes' ,'digits:14'],
-            'recept_image'          => ['image'],
-//            'recept_password'       => ['min:4'],
+            'name'          => ['min:2'],
+            'email'         => ['required' ,'email' ,'unique:users,id,'.$this->receptionist_id],
+            'national_id'   => ['required' ,'digits:14'],
+            'image'         => ['image'],
+            'password'      => ["sometimes","nullable","min:6", "confirmed"],
             "manager_id"    => Rule::requiredIf(!Auth::user()->hasRole('manager')),
         ];
     }

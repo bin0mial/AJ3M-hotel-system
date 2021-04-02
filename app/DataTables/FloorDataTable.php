@@ -104,7 +104,7 @@ class FloorDataTable extends DataTable
             $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
 
             $delete_btn =
-                "<button type='button' class='btn btn-warning ml-1' data-toggle='modal' data-target='#Fdelete$data->id'>Lock</button>"
+                "<button type='button' class='btn btn-danger ml-1' data-toggle='modal' data-target='#Fdelete$data->id'>Delete</button>"
                 ."<div class='modal fade' id='Fdelete$data->id' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>"
                     ."<div class='modal-dialog modal-dialog-centered'>"
                         ."<div class='modal-content'>"
@@ -116,9 +116,9 @@ class FloorDataTable extends DataTable
                             ."<span aria-hidden='true'>&times;</span>"
                             ."</button>"
                         ."</div>"
-                        ."<div class='modal-body'>Are you sure you want to <span class='text-danger'>lock Floor: $data->name</span> ? </div>"
+                        ."<div class='modal-body'>Are you sure you want to <span class='text-danger'>delete Floor: $data->name</span> ? </div>"
                             ."<div class='modal-footer'>"
-                            ."<button class='btn btn-warning' onclick='lockButton(\"$delete\", \"{$data->name }\", \"$current_datatable\")'  id='$data->id' type='submit'>Yes ,lock</button>"
+                            ."<button class='btn btn-danger' onclick='lockButton(\"$delete\", \"{$data->name }\", \"$current_datatable\")'  id='$data->id' type='submit'>Yes ,delete</button>"
                             ."<a type='button' class='btn btn-secondary ml-1' data-dismiss='modal'>Cancel</a>"
                             ."</div>"
                         ."</div>"

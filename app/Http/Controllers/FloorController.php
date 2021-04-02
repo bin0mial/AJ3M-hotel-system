@@ -9,7 +9,7 @@ use App\Models\Floor;
 use App\Models\Manager;
 use Faker\Provider\sk_SK\PhoneNumber;
 use Illuminate\Http\Request;
-use Faker\Factory as Faker;
+use Illuminate\Support\Facades\Auth;
 
 class FloorController extends Controller
 {
@@ -19,25 +19,25 @@ class FloorController extends Controller
     }
 
     public function create(){
-        $faker = Faker::create();
-        $rand  = $faker->unique()->numberBetween($min = 1000, $max = 9000);
-        $check = Floor::where('number',"=", $rand)->get()->isEmpty();
-        if ($check){
-//            dd("not exist");
-        } else {
-//            dd("exists");
+        $floor_ids_array = Floor::pluck("id")->toArray();
+        $floor_num = rand(1, 5000);
+        while (in_array($floor_num, $floor_ids_array)){
+            $floor_num = rand(1, 5000);
         }
 
         return view('floors.create',
         [
             "managers"  => Manager::all(),
-            "number"    => $rand,
+            "number"    => $floor_num,
         ]);
     }
 
     public function store(StoreFloorRequest $request){
-        Floor::create($request->validated());
-        return redirect()->back()->with(["success" => ["message" => "Floor Created Successfully"]]);
+        $valid = $request->validated();
+        $manager_id = Auth::user()->hasRole('manager') ?  Auth::user()->manager->id : $request->manager_id;
+        $valid["manager_id"] = $manager_id;
+        Floor::create($valid);
+        return redirect()->back()->with(["success" => ["message" => "Floor Created Successfully <i class='fas fa-smile-beam'></i>"]]);
     }
 
     public function edit(Floor $floor){

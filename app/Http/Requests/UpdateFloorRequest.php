@@ -26,7 +26,7 @@ class UpdateFloorRequest extends FormRequest
         return [
             "name"          => ["required" , "min:3"],
             "number"        => ["required" , "unique:floors,id,".$this->id ,"exists:floors,number"],
-            "manager_id"    => ["required" , "exists:managers,user_id"]
+            "manager_id"    => ["required" , "exists:managers,id"],
         ];
     }
 }

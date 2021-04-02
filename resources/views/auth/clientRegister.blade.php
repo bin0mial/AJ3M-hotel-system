@@ -3,16 +3,16 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header">{{ __('Register a New Account') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('clientRegister') }}">
+                    <form enctype="multipart/form-data" method="POST" action="{{ route('clientRegister') }}">
                         @csrf
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
@@ -58,6 +58,36 @@
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="sel1"  class="col-md-4 col-form-label text-md-right">Select Gender</label>
+                            <div class="col-md-6">
+                            <select class="form-control" id="sel1">
+                              <option>Male</option>
+                              <option>Female</option>
+                            </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="sel2"  class="col-md-4 col-form-label text-md-right">Select Country</label>
+                            <div class="col-md-6">
+                            <select class="form-control" id="sel2">
+                                @foreach($countries as $key=>$country)
+                                <option value="{{ $country['name'] }}">{{ $country['name'] }}</option>
+                                @endforeach
+                            </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <div class="input-group mb-6">
+                                    <label for="avatar_image" class="col-md-4 col-form-label text-md-right">Choose Image</label>
+                                    <input type="file" class="form-control-file col-md-6 justify-content-center" id="avatar_image" name="avatar_image" accept="image/jpeg,png">
+                                </div>
                             </div>
                         </div>
 
