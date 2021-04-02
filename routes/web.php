@@ -7,6 +7,7 @@ use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientReservationController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +33,21 @@ Route::get('/reservations', function () {
 
 Route::group(['middleware' => 'auth'],function () {
 
+    Route::prefix("users")->group(function(){
+        Route::get("/{user}/edit", [UserController::class, "edit"])->name("users.edit");
+        Route::put("/{user}", [UserController::class, "update"])->name("users.update");
+    });
+
+    Route::prefix("admin")->middleware(["role:admin|manager|receptionist"])->group(function (){
+        Route::get("/", function (){
+            return view('dashboard_welcome');
+        })->name("admin.dashboard");
+
+
     Route::prefix("managers")->middleware(["role:admin"])->group(function (){
         Route::get('/', [ManagerController::class, 'index'])->name('managers.index');
         Route::get('/create', [ManagerController::class, 'create'])->name('managers.create');
         Route::post('/', [ManagerController::class, 'store'])->name('managers.store');
-        Route::get("/{manager}", [ManagerController::class, 'show'])->name('managers.show');
         Route::get('/{manager}/edit', [ManagerController::class, 'edit'])->name('managers.edit');
         Route::put("/{manager}", [ManagerController::class, 'update'])->name('managers.update');
         Route::delete('/{manager}', [ManagerController::class, 'destroy'])->name('managers.destroy');
@@ -95,7 +106,7 @@ Route::group(['middleware' => 'auth'],function () {
         Route::post('/', [RoomController::class, 'store'])->name('rooms.store');
 
     });
-
+    });
     // Route::prefix("reservation")->group(function () {
     //     Route::get('/index', [ClientReservationController::class, 'index'])->name('reservations.index');
     //     Route::get('/create', [ClientReservationController::class, 'create'])->name('reservations.create');
