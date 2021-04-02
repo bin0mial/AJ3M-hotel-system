@@ -41,4 +41,8 @@ class Room extends Model
         return $this->belongsTo(Manager::class);
     }
 
+    public function client_reservation(){
+        return $this->hasMany(ClientReservation::class);
+    }
+
 }

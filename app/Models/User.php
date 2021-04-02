@@ -44,8 +44,6 @@ class User extends Authenticatable
     public function client(){
         return $this->hasOne(Client::class);
     }
-
-    
     /**
      * The attributes that should be hidden for arrays.
      *

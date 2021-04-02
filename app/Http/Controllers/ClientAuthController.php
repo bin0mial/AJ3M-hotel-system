@@ -14,6 +14,10 @@ class ClientAuthController extends Controller
         return view('auth.clientLogin');
     }
 
+    public function loggedIn(){
+        return view('clients.index');
+    }
+
     public function register(){
         return view('auth.clientRegister',[
             'countries' => countries()

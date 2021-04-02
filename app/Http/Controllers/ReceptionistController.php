@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ReceptionistDataTable;
-use App\Http\Requests\ReceptionistStoreRequest;
-use App\Http\Requests\ReceptionistUpdateRequest;
 use App\Http\Requests\StoreReceptionistRequest;
-use App\Http\Requests\StoreReceptRequest;
 use App\Http\Requests\UpdateReceptionistRequest;
 use App\Models\Manager;
 use App\Models\Receptionist;
@@ -28,7 +25,7 @@ class ReceptionistController extends Controller
 
     public function store(StoreReceptionistRequest $request){
         $user = User::create($request->validated());
-        $user->assignRole('receptionist');
+        $user->assignRole('receptionists');
         $manager_id = Auth::user()->hasRole('manager') ?  Auth::user()->manager->id : $request->manager_id;
         Receptionist::create(["user_id" => $user->id ,"manager_id" => $manager_id]);
         return redirect()->back()->with(["success" => ["message" => "Receptionist Created Successfully"]]);
@@ -67,8 +64,9 @@ class ReceptionistController extends Controller
             return redirect()->route('receptionists.index')
                 ->with(["danger" => ["warning" => "Receptionist Deleted Successfully"]]);
         }
-        return redirect()->route('receptionists.index')
-            ->with(["error" => ["message" => "Unauthorized Action <i class='fas fa-ban'></i>"]]);
+//        return redirect()->route('receptionists.index')
+//            ->with(["error" => ["message" => "Unauthorized Action <i class='fas fa-ban'></i>"]]);
+        return response("Unauthorized Action");
     }
 
     public function ban(Receptionist $receptionist){

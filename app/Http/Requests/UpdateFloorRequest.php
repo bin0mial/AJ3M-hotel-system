@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class UpdateFloorRequest extends FormRequest
 {
@@ -26,7 +28,7 @@ class UpdateFloorRequest extends FormRequest
         return [
             "name"          => ["required" , "min:3"],
             "number"        => ["required" , "unique:floors,id,".$this->id ,"exists:floors,number"],
-            "manager_id"    => ["required" , "exists:managers,id"],
+            "manager_id"    => Rule::requiredIf(!Auth::user()->hasRole('manager')),
         ];
     }
 }

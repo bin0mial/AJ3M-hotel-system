@@ -13,15 +13,15 @@ class CreateClientReservationTable extends Migration
      */
     public function up()
     {
-        Schema::create('client_reservation', function (Blueprint $table) {
+        Schema::create('client_reservations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('accompany_number');
-            $table->unsignedBigInteger('room_number');
+            $table->unsignedBigInteger('room_id');
             $table->unsignedBigInteger('paid_price');
             $table->timestamps();
             $table->foreign('client_id')->on('clients')->references('id');
-            
+            $table->foreign('room_id')->on('rooms')->references('id');
         });
     }
 
@@ -32,6 +32,6 @@ class CreateClientReservationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_reservation');
+        Schema::dropIfExists('client_reservations');
     }
 }

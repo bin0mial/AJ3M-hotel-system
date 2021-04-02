@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -23,8 +24,11 @@ class LoginController extends Controller
     use AuthenticatesUsers;
     protected function authenticated(Request $request, $user)
     {
+        if($user->hasRole('client') && $user->client->approval == 'false' ){
+            \Auth::logout();
+        }
         if($user->hasRole('client')){
-            return redirect()->route('clientLogin');
+            return redirect()->route('clientHome.index');
         }
         return redirect(RouteServiceProvider::HOME);
     }

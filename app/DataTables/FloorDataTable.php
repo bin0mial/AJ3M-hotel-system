@@ -98,7 +98,7 @@ class FloorDataTable extends DataTable
 
     protected function getFloorActionColumn($data)
     {
-        if (Auth::user()->hasRole('admin') || $data->manager_id == Auth::user()->id) {
+        if (Auth::user()->hasRole('admin') || $data->manager_id == Auth::user()->manager->id) {
             $edit = route("floors.edit", [$data->id]);
             $delete = route("floors.destroy", $data->id);
             $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
@@ -118,7 +118,7 @@ class FloorDataTable extends DataTable
                         ."</div>"
                         ."<div class='modal-body'>Are you sure you want to <span class='text-danger'>delete Floor: $data->name</span> ? </div>"
                             ."<div class='modal-footer'>"
-                            ."<button class='btn btn-danger' onclick='lockButton(\"$delete\", \"{$data->name }\", \"$current_datatable\")'  id='$data->id' type='submit'>Yes ,delete</button>"
+                            ."<button class='btn btn-danger' onclick='deleteFFButton(\"$delete\", \"{$data->name }\", \"$current_datatable\" ,\"$data->id\")'  id='$data->id' type='submit'>Yes ,delete</button>"
                             ."<a type='button' class='btn btn-secondary ml-1' data-dismiss='modal'>Cancel</a>"
                             ."</div>"
                         ."</div>"
