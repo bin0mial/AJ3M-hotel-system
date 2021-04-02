@@ -33,7 +33,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ route("home") }}" class="nav-link">Home</a>
+                    <a href="{{ route("admin.dashboard") }}" class="nav-link">Home</a>
                 </li>
                 <div class="nav-item d-none d-sm-inline-block" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -68,7 +68,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <div class="d-flex justify-content-center">
-                <a href="{{ route("home") }}" class="brand-link">
+                <a href="{{ route("admin.dashboard") }}" class="brand-link">
                     <img src="{{ asset("images/logo/AJ3M Logo.png") }}" alt="AdminLTE Logo"
                         style="width: 150px; height: 150px; filter:drop-shadow(0px 0px 4px #060d1a)">
                 </a>
