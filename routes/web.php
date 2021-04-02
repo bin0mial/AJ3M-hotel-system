@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientReservationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientAuthController;
+use App\Http\Controllers\ClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +52,7 @@ Route::group(['middleware' => 'auth'],function () {
         Route::put("/{user}", [UserController::class, "update"])->name("users.update");
     });
 
-    Route::prefix("admin")->middleware(["role:admin|manager|receptionist"])->group(function (){
+    Route::prefix("admin")->middleware(["role:admin|manager|receptionists"])->group(function (){
         Route::get("/", function (){
             return view('dashboard_welcome');
         })->name("admin.dashboard");
@@ -123,6 +124,15 @@ Route::group(['middleware' => 'auth'],function () {
         Route::post('/', [RoomController::class, 'store'])->name('rooms.store');
 
     });
+
+    Route::prefix("clients")->group(function (){
+        Route::get('/', [ClientController::class, 'index'])->name('client.index');
+        Route::get('/pending', [ClientController::class, 'pending'])->name('client.pending');
+        Route::get('/{client}/accept', [ClientController::class, 'accept'])->name('client.accept');
+        Route::put('/{client}', [ClientController::class, 'update'])->name('client.update');
+        Route::get('/reservation', [ClientController::class, 'get_reservation'])->name('client.reservation');
+        Route::delete('/{client}', [ClientController::class, 'destroy'])->name('client.destroy');
+    });
     });
     // Route::prefix("reservation")->group(function () {
     //     Route::get('/index', [ClientReservationController::class, 'index'])->name('reservations.index');
@@ -132,14 +142,7 @@ Route::group(['middleware' => 'auth'],function () {
 
 });
 
-Route::prefix("client")->group(function (){
-    Route::get('/index', [ClientController::class, 'index'])->name('client.index');
-    Route::get('/pending', [ClientController::class, 'pending'])->name('client.pending');
-    Route::get('/{client}/accept', [ClientController::class, 'accept'])->name('client.accept');
-    Route::put('/{client}', [ClientController::class, 'update'])->name('client.update');
-    Route::get('/reservation', [ClientController::class, 'get_reservation'])->name('client.reservation');
-    Route::delete('/{client}', [ClientController::class, 'destroy'])->name('client.destroy');
-});
+
 
 
 Auth::routes();

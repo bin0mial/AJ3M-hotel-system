@@ -35,7 +35,7 @@ class ClientDataTable extends DataTable
      */
     public function query(Client $model)
     {
-        return $model->newQuery()->with('user')->select('clients.*')->where('approval','false');
+        return $model->newQuery()->with('user')->select('clients.*')->where('approval',false);
        
     }
 
@@ -97,14 +97,14 @@ class ClientDataTable extends DataTable
 
     protected function getClientActionColumn($data)
     {
-        if ($data->receptionist_id == null && $data->approval == 'false') {
+        if ($data->receptionist_id == null && $data->approval == false) {
            
             $accept = route("client.accept", [$data->id]);
             $delete = route("client.destroy", $data->id);
             $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
             return "<div class='d-flex  justify-content-center'>"
                 . "<a class='btn btn-warning' href='$accept'>Accept</a>"
-                . "<button class='btn btn-danger ml-2 delete-user' onclick='deleteButton(\"$delete\", \"{$data->user->name }\", \"$current_datatable\")'>Delete</button>";
+                . "<button class='btn btn-danger ml-2 delete-user' onclick='deleteButton(\"$delete\", \"{$data->user->name }\", \"$current_datatable\")'>Reject</button>";
 
         }
     }
