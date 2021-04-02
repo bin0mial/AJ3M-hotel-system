@@ -8,9 +8,7 @@
                     <p class="text-muted"> Room ID <span class="font-weight-bold text-dark">1222528743</span></p>
                     <p class="text-muted"> Place On <span class="font-weight-bold text-dark">12,March 2021</span> </p>
                 </div>
-                <div class="flex-col my-auto">
-                    <h6 class="ml-auto mr-3"> <a href="#">View Details</a> </h6>
-                </div>
+
             </div>
         </div>
         <div class="card-body">
@@ -18,7 +16,7 @@
                 <div class="media-body ">
                     <h5 class="bold">Room Name</h5>
                     <p class="text-muted"> Registerd for: 1 Night</p>
-                    <h4 class="mt-3 mb-4 bold"> <span class="mt-5">$</span> 1,500 <span class="small text-muted"> via (Master Card) </span></h4>
+                    <h4 class="mt-3 mb-4 bold"> {{ $room->price }} <span class="small text-muted"> via (Master Card) </span></h4>
                     <p class="text-muted">Registration date on: <span class="Today">11:30pm, Today</span></p>
                     <div class="row">
                         <div class="container">

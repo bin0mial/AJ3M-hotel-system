@@ -32,7 +32,9 @@ Route::get('/reservations', function () {
     return view('reservations.index');
 });
 
-Route::get('/clientHome', [ClientReservationController::class, 'index'])->name('clientHome') ;
+Route::get('/clientHome', [ClientReservationController::class, 'index'])->name('clientHome.index');
+Route::get('/reservations/rooms/{room}', [ClientReservationController::class, 'reserve'])
+    ->name('clientHome.reserve');
 
 Route::get('/checkout', function () {
     return view('clients.clientCheckout');

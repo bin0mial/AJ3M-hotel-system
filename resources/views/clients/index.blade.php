@@ -25,10 +25,12 @@
 <br>
     <div class="row">
         <!-- Room component -->
-        @foreach ($rooms as $room )
+    @foreach ($rooms as $room)
         <div class="col-md-4">
             <div class="card">
-                <div> <img src="{{ asset('images/rooms/hotelRoom1.jpg') }}" class="img-responsive image"> </div>
+                <div>
+                    <img src="{{ asset('images/rooms/hotelRoom1.jpg') }}" class="img-responsive image">
+                </div>
                 <p class="rating">9.2</p>
                 <div class="card-body">
                     <h5 class="card-title-desc" >The platinum terminal room</h5>
@@ -40,17 +42,15 @@
                         <li>feature 2</li>
                         <li>feature 3</li>
                     </ul>
-                    <p>Sleeps: <span><i class="bi bi-person-fill"> X {{ $room->capacity }}</span></p>
-
-                    <h6 class="card-text price-tag">$ {{ $room->price }} <small class="text-muted"> per night </small></h6>
-                    <button type="button" class="btn btn-success btn-lg btn-block">Reserve</button>
+                    <p>Sleeps: <span><i class="bi bi-person-fill"></i> X {{ $room->capacity }}</span></p>
+                    <h6 class="card-text price-tag  text-lg"> {{ $room->price }} <small class="text-muted"> per night </small></h6>
+                    <a type="button" class="btn btn-success btn-lg btn-block" href="{{ route('clientHome.reserve' ,[$room->id]) }}">Reserve</a>
                 </div>
             </div>
         </div>
-        @endforeach
 
+    @endforeach
         <!-- End of Room component -->
-
 
     </div> <!-- end of class row-->
 </div><!-- end of container-->
