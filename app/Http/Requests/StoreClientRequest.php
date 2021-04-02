@@ -23,13 +23,13 @@ class StoreClientRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
             'name' => ['required'],
             'email' => ['required', 'unique:users,email'],
             'gender'=>['in:female,male'],
             'avatar_image' =>['required'],
             'country' => ['required'],
+            "mobile" => ["required"],
             'password' => ['required','confirmed']
         ];
     }

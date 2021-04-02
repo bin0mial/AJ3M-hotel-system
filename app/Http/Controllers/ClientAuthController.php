@@ -24,7 +24,9 @@ class ClientAuthController extends Controller
         $valid = $request->validated();
         $user = User::create($valid);
         $valid['user_id'] = $user->id;
+        $valid['approval'] = "false";
         Client::create($valid);
         $user->createAsStripeCustomer();
+        return redirect('/');
     }
 }

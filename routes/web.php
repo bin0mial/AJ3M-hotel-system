@@ -23,7 +23,8 @@ use App\Http\Controllers\ClientAuthController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+
 Route::get('/home', function () {
     return view('layouts.admin');
 });

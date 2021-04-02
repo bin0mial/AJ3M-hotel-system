@@ -52,7 +52,7 @@
                             <label for="Phone Number" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="Phone Number" type="text" class="form-control @error('Phone Number') is-invalid @enderror" name="mobile" value="{{ old('Phone Number') }}" required autocomplete="Phone Number">
+                                <input id="mobile" type="text" class="form-control @error('Phone Number') is-invalid @enderror" name="mobile" value="{{ old('Phone Number') }}" required>
 
                                 @error('Phone Number')
                                     <span class="invalid-feedback" role="alert">
@@ -116,10 +116,10 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <a type="submit" class="btn btn-primary" href="/">
-                                    Register
-                                </a>
 
+                                <button type="submit" class="btn btn-primary">
+                                    Register
+                                </button>
                             </div>
                         </div>
                     </form>
