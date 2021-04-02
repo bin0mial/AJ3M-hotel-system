@@ -24,11 +24,10 @@ class ReceptionistUpdateRequest extends FormRequest
     public function rules()
     {
 //        dd($this->receptionist_id);
-        $user_id = $this->receptionist;
         return [
             'recept_name'           => ['min:2'],
-//            'recept_email'          => ['email' ,'unique:users,email', 'exists:users,email','unique:users,email,'.$user_id],
-            // 'recept_national_id'   => ['required' ,'min:14' ,'max:14'],
+            'recept_email'          => ['required' ,'email' ,'unique:users,email,'.$this->receptionist_id],
+//             'recept_national_id'   => ['sometimes' ,'min:14' ,'max:14'],
             'recept_image'          => ['image'],
 //            'recept_password'       => ['min:4'],
         ];

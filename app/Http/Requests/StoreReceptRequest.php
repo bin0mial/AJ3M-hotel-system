@@ -24,11 +24,11 @@ class StoreReceptRequest extends FormRequest
     public function rules()
     {
         return [
-            'recept_name'           => ['required' ,'min:2'],
-            'recept_email'          => ['required' ,'email' ,'unique:users,email'],
-            // 'recept_national_id'   => ['required' ,'min:14' ,'max:14'],
-            'recept_image'          => ['image'],
-            'recept_password'       => ['required' ,'min:4'],
+            "name"          => ["required"],
+            "email"         => ["required", "email", "unique:users"],
+            "national_id"   => ["required", "numeric", "max:14"  ,"unique:users"],
+            "password"      => ["required", "min:6" ,"confirmed"],
+            'avatar_image'  => 'mimes:jpeg,png',
         ];
     }
 }

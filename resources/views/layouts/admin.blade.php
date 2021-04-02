@@ -8,11 +8,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield("title")</title>
+    <title>@yield("title") | {{ config()->get("app.name", "AJ3M Hotel System") }}</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+    <meta name="_token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <script src="{{ mix('js/app.js') }}"></script>
@@ -32,6 +34,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route("home") }}" class="nav-link">Home</a>
                 </li>
+                <div class="nav-item d-none d-sm-inline-block" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </div>
             </ul>
 
             <!-- Right navbar links -->
@@ -142,8 +155,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         @endhasanyrole
                         @hasanyrole("admin")
-                        <li class="nav-item menu-close">
-                            <a href="#" class="nav-link">
+                        @php($currentRoute = Route::currentRouteName())
+                        @php($active = str_starts_with($currentRoute, "managers"))
+                        <li class="nav-item menu-{{$active? "open": "close"}}">
+                            <a href="#" class="nav-link  @if($active) active @endif">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     Manager Control
@@ -152,13 +167,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('managers.index')}}" class="nav-link">
+                                    <a href="{{route('managers.index')}}" class="nav-link {{$currentRoute=="managers.index"?"active": ""}}">
                                         <i class="nav-icon fas fa-users"></i>
                                         <p>All Managers</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href=" {{route('managers.create')}} " class="nav-link">
+                                    <a href=" {{route('managers.create')}} " class="nav-link {{$currentRoute=="managers.create"?"active": ""}}">
                                         <i class="nav-icon fas fa-user-plus"></i>
                                         <p>Create Manager</p>
                                     </a>
@@ -168,8 +183,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         @endhasanyrole
                         {{-- RECEPTCINIST --}}
                          @hasanyrole('admin|manager')
-                        <li class="nav-item menu-close">
-                            <a href="#" class="nav-link">
+                        @php($currentRoute = Route::currentRouteName())
+                        @php($active = str_starts_with($currentRoute, "receptionists"))
+                        <li class="nav-item menu-{{$active? "open": "close"}}">
+                            <a href="#" class="nav-link @if($active) active @endif">
                                 <i class="nav-icon fas fa-user-cog"></i>
                                 <p>
                                     Receptionist Control
@@ -178,25 +195,55 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('receptionist.index')}}" class="nav-link">
+                                    <a href="{{route('receptionists.index')}}" class="nav-link {{$currentRoute=="receptionists.index"?"active": ""}}">
                                         <i class="nav-icon fas fa-book"></i>
                                         <p>All receptionists</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href=" {{route('receptionist.create')}} " class="nav-link">
+                                    <a href=" {{route('receptionists.create')}} " class="nav-link {{$currentRoute=="receptionists.create"?"active": ""}}">
                                         <i class="nav-icon fas fa-edit"></i>
                                         <p>Create receptionist</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+                        {{-- FLOORS CONTROLL --}}
+                        @php($currentRoute = Route::currentRouteName())
+                        @php($active = str_starts_with($currentRoute, "floors"))
+                        <li class="nav-item menu-{{$active? "open": "close"}}">
+                            <a href="#" class="nav-link  @if($active) active @endif">
+                                <i class="nav-icon fas fa-hotel"></i>
+                                <p>
+                                    Manage Floors
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('floors.index')}}" class="nav-link {{$currentRoute=="floors.index"?"active": ""}}">
+                                        <i class="nav-icon fas fa-book"></i>
+                                        <p>All Floors</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href=" {{route('floors.create')}} " class="nav-link {{$currentRoute=="floors.create"?"active": ""}}">
+                                        <i class="nav-icon fas fa-plus-square"></i>
+                                        <p>Create Floor</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         @endhasanyrole
                         {{-- CLIENT  --}}
+<<<<<<< HEAD
                         {{-- @role('receptionist') --}}
                     {{-- @hasanyrole('admin|manager|receptionist') --}}
+=======
+                        {{-- @role('receptionists') --}}
+>>>>>>> 27ac15c5714c6364d5a80f8542245e60da2f3742
                         <li class="nav-item menu">
-                            <a href="#" class="nav-link active">
+                            <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user-friends"></i>
                                 <p>
                                     Client Control
@@ -206,7 +253,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 {{-- @role('role') --}}
                                 <li class="nav-item">
+<<<<<<< HEAD
                                     <a href="{{route('client.index')}}" class="nav-link">
+=======
+                                    <a href="{{route('receptionists.index')}}" class="nav-link">
+>>>>>>> 27ac15c5714c6364d5a80f8542245e60da2f3742
                                         <i class="nav-icon fas fa-book"></i>
                                         <p>Approved Clients</p>
                                     </a>
@@ -244,6 +295,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.content-header -->
 
             <!-- Main content -->
+            @if(session()->has("success"))
+                <div class="alert alert-success">
+                    <ul>
+                        @foreach (session()->get("success") as $success)
+                            <li>{{ $success }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             @yield("content")
 
             <!-- /.content -->
@@ -277,6 +346,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- REQUIRED SCRIPTS -->
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
     @stack('scripts')
+    <script>
+        const deleteButton = (url, name, table) => {
+            if (confirm(`Are you sure you want to delete ${name}, permanently`)){
+                const data = {
+                    _method: "DELETE",
+                    _token: "{{ csrf_token() }}"
+                }
+                $.ajaxSetup({
+                    url: url,
+                    global: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    type: "POST"
+                });
+
+                $.ajax({
+                    type: "POST",
+                    data: data,
+                    success: function () {
+                        $(`#${table}-table`).DataTable().ajax.reload(null, false);
+                    },
+                    error: function (jqXhr){
+                        alert(jqXhr.responseText)
+                    },
+                });
+            }
+        }
+    </script>
 </body>
 
 </html>

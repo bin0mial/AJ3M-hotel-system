@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 
 class Manager extends Model
@@ -11,12 +12,12 @@ class Manager extends Model
     use HasFactory, HasRoles;
 
     protected $fillable = [
-        "manager_id"
+        "user_id"
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, "manager_id");
+        return $this->belongsTo(User::class);
     }
 
     public function receptionists(){

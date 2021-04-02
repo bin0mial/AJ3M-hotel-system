@@ -7,11 +7,15 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -26,8 +30,13 @@ class User extends Authenticatable
         'avatar_image',
     ];
 
-    public function manager(){
+    public function manager()
+    {
         return $this->hasOne(Manager::class);
+    }
+
+    public function receptionist(){
+        return $this->hasOne(Receptionist::class);
     }
 
     /**
@@ -49,7 +58,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getCreatedAtAttribute($value){
-        return Carbon::create($value)->toDateTimeString();
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->toDateTimeString();
+    }
+
+    public function getAvatarImageAttribute($value): string
+    {
+        return $value?Storage::url($value):"/images/default_avatar.png";
+    }
+
+    public function setAvatarImageAttribute($value)
+    {
+        $path = $value ? $value->storePublicly("public/avatars") : null;
+        $this->attributes['avatar_image'] = $path;
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes["password"] = Hash::make($value);
     }
 }
