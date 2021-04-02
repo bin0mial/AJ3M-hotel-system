@@ -11,15 +11,16 @@ class Input extends Component
      *
      * @return void
      */
-    private $name, $required, $type, $placeholder, $value;
+    private $name, $required, $type, $placeholder, $value , $disabled;
 
-    public function __construct($name, $type, $placeholder, $value = '', $required = false)
+    public function __construct($name, $type, $placeholder, $value = '', $required = false , $disabled = false)
     {
         $this->name = $name;
         $this->type = $type;
         $this->placeholder = $placeholder;
         $this->value = $value;
         $this->required = $required;
+        $this->disabled = $disabled;
 
     }
 
@@ -32,6 +33,6 @@ class Input extends Component
     {
         return view('components.forms.input', [
             "name" => $this->name, "type" => $this->type, "placeholder" => $this->placeholder,
-            "value" => $this->value, "required" => $this->required]);
+            "value" => $this->value, "required" => $this->required , "disabled" => $this->disabled]);
     }
 }

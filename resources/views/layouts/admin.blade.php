@@ -243,14 +243,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 {{-- @role('role') --}}
                                 <li class="nav-item">
-                                    <a href="{{route('receptionists.index')}}" class="nav-link">
+                                    <a href="{{route('client.index')}}" class="nav-link">
                                         <i class="nav-icon fas fa-book"></i>
-                                        <p>All clients</p>
+                                        <p>Approved Clients</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href=" {{route('client.reservation')}} " class="nav-link">
+                                        <i class="nav-icon fas fa-edit"></i>
+                                        <p>Clients Reservations</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href=" {{route('client.pending')}} " class="nav-link">
+                                        <i class="nav-icon fas fa-edit"></i>
+                                        <p>Pending Clients</p>
+                                    </a>
+                                </li>
+                               
                                 {{-- @endrole --}}
                             </ul>
                         </li>
+                        {{-- @endhasanyrole --}}
                         {{-- @endrole --}}
                         {{-- @endrole --}}
                     </ul>

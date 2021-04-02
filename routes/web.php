@@ -128,6 +128,15 @@ Route::group(['middleware' => 'auth'],function () {
 
 });
 
+Route::prefix("client")->group(function (){
+    Route::get('/index', [ClientController::class, 'index'])->name('client.index');
+    Route::get('/pending', [ClientController::class, 'pending'])->name('client.pending');
+    Route::get('/{client}/accept', [ClientController::class, 'accept'])->name('client.accept');
+    Route::put('/{client}', [ClientController::class, 'update'])->name('client.update');
+    Route::get('/reservation', [ClientController::class, 'get_reservation'])->name('client.reservation');
+    Route::delete('/{client}', [ClientController::class, 'destroy'])->name('client.destroy');
+});
+
 
 Auth::routes();
 
