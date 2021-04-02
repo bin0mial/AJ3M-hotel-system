@@ -29,6 +29,14 @@ Route::get('/reservations', function () {
     return view('reservations.index');
 });
 
+Route::get('/clientHome', function () {
+    return view('clients.clientHome');
+})->name('clientHome');
+
+Route::get('/checkout', function () {
+    return view('clients.clientCheckout');
+})->name('clientCheckout');
+
 Route::group(['middleware' => 'auth'],function () {
 
     Route::prefix("managers")->middleware(["role:admin"])->group(function (){

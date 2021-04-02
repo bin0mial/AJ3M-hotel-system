@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 class ClientReservationController extends Controller
 {
     /**
@@ -17,7 +18,9 @@ class ClientReservationController extends Controller
     }
 
     public function register(){
-        return view('auth.clientRegister');
+        return view('auth.clientRegister',[
+            'countries' => countries()
+        ]);
     }
     /**
      * Show the form for creating a new resource.
