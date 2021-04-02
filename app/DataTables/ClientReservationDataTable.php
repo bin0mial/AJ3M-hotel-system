@@ -36,7 +36,7 @@ class ClientReservationDataTable extends DataTable
     {
 
         $is_receptionist = Auth::user()->hasRole('receptionist') ;
-        return $model->newQuery()->with('user')->select('clients.*')->where('approval',true)
+        return $model->newQuery()->with(['client','user'])->select('client_reservations.*')->where('clients.approval',true)
         ->when($is_receptionist,function($query , $is_receptionist ){
 
              return $query->where('receptionist_id',Auth::user()->receptionist->id);

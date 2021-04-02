@@ -39,6 +39,7 @@ class User extends Authenticatable
     public function receptionist(){
         return $this->hasOne(Receptionist::class);
     }
+    
 
     public function client(){
         return $this->hasOne(Client::class);
@@ -52,6 +53,9 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    
+    
+
 
     /**
      * The attributes that should be cast to native types.
@@ -82,4 +86,6 @@ class User extends Authenticatable
     {
         $this->attributes["password"] = Hash::make($value);
     }
+
+   
 }

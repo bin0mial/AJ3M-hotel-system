@@ -163,7 +163,7 @@
               data-ripple-color="light"
               >
                   <img
-                      src="{{ Storage::url('public/hotel_images/hotel1.jpg') }}"
+                      src="{{ asset('images/hotel_images/hotel1.jpg') }}"
                       class="w-100"
                   />
                   <a href="#!">
@@ -183,7 +183,7 @@
               data-ripple-color="light"
               >
                   <img
-                      src="{{ Storage::url('public/hotel_images/hotel2.jpg') }}"
+                      src="{{ asset('images/hotel_images/hotel2.jpg') }}"
                       class="w-100"
                   />
                   <a href="#!">
@@ -203,7 +203,7 @@
               data-ripple-color="light"
               >
                   <img
-                      src="{{ Storage::url('public/hotel_images/hotel3.jpg') }}"
+                      src="{{ asset('images/hotel_images/hotel7.jpg') }}"
                       class="w-100"
                   />
                   <a href="#!">
@@ -223,7 +223,7 @@
               data-ripple-color="light"
               >
                   <img
-                      src="{{ Storage::url('public/hotel_images/hotel5.jpg') }}"
+                      src="{{ asset('images/hotel_images/hotel5.jpg') }}"
                       class="w-100"
                   />
                   <a href="#!">
@@ -243,7 +243,7 @@
               data-ripple-color="light"
               >
                   <img
-                      src="{{ Storage::url('public/hotel_images/hotel6.jpg') }}"
+                      src="{{ asset('images/hotel_images/hotel6.jpg') }}"
                       class="w-100"
                   />
                   <a href="#!">
@@ -263,7 +263,7 @@
               data-ripple-color="light"
               >
                   <img
-                      src="{{ Storage::url('public/hotel_images/hotel7.jpg') }}"
+                      src="{{ asset('images/hotel_images/hotel3.jpg') }}"
                       class="w-100"
                   />
                   <a href="#!">
