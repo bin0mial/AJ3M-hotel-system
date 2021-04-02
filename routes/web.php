@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientReservationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientAuthController;
+use App\Http\Controllers\ClientController;
 
 /*
 |--------------------------------------------------------------------------
