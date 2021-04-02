@@ -20,7 +20,7 @@ class CreateClientsTable extends Migration
             $table->enum('gender',['male','female']);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('receptionist_id')->nullable();
-            $table->enum('approval',['true','false']);
+            $table->boolean('approval')->default(false);
             $table->datetime('last_notified')->nullable();
             $table->datetime('last_login')->nullable();
             $table->timestamps();
