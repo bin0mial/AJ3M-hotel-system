@@ -58,7 +58,7 @@
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/reservation/register">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="/client/register">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else

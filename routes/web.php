@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientReservationController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +32,7 @@ Route::get('/reservations', function () {
     return view('reservations.index');
 });
 
-Route::get('/clientHome', function () {
-    return view('clients.clientHome');
-})->name('clientHome');
+Route::get('/clientHome', [ClientReservationController::class, 'index'])->name('clientHome') ;
 
 Route::get('/checkout', function () {
     return view('clients.clientCheckout');
@@ -141,7 +139,7 @@ Route::prefix("client")->group(function (){
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/reservation/index', [ClientReservationController::class, 'index'])->name('clientLogin');
-Route::get('/reservation/register', [ClientReservationController::class, 'register'])->name('clientRegister');
+Route::get('/client', [ClientAuthController::class, 'index'])->name('clientLogin');
+Route::get('/client/register', [ClientAuthController::class, 'register'])->name('clientRegister');
 
-Route::post('/reservation/register', [ClientReservationController::class, 'register'])->name('clientRegister');
+Route::post('/client/register', [ClientReservationController::class, 'register'])->name('clientRegister');

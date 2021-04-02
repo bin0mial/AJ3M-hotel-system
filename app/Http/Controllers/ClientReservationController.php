@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
 use Illuminate\Http\Request;
 
 
@@ -14,12 +15,8 @@ class ClientReservationController extends Controller
      */
     public function index()
     {
-        return view('auth.clientLogin');
-    }
-
-    public function register(){
-        return view('auth.clientRegister',[
-            'countries' => countries()
+        return view('clients.clientHome',[
+            "rooms" => Room::all()->where("reserved","=","0")
         ]);
     }
     /**
