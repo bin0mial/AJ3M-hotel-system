@@ -29,6 +29,7 @@ class UpdateManagerRequest extends FormRequest
             "national_id" => ["required", "numeric", "unique:users,id," . $this->manager->user->id],
             "password" => ["sometimes","nullable","min:6", "confirmed"],
             'avatar_image' => 'mimes:jpeg,png',
+            'manager_id' => ["exists:managers"]
         ];
     }
 }

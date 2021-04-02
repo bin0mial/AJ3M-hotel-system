@@ -26,6 +26,9 @@ class ReceptionistDataTable extends DataTable
             ->eloquent($query)
             ->addColumn('action', function ($data) {
                 return $this->getReceptionistActionColumn($data);
+            })
+            ->addColumn("manager",function ($data){
+                return $data->manager_id;
             });
     }
 
@@ -37,7 +40,7 @@ class ReceptionistDataTable extends DataTable
      */
     public function query(Receptionist $model)
     {
-        return $model->newQuery()->with(["user"]);
+        return $model->newQuery()->with(["user"])->select("receptionists.*");
     }
 
     /**
@@ -53,7 +56,7 @@ class ReceptionistDataTable extends DataTable
         ->minifiedAjax()
         ->lengthMenu()
         ->dom('Blfrtip')
-        ->orderBy(1)
+        ->orderBy(0)
         ->buttons(
             Button::make('create'),
             Button::make('export'),
@@ -89,7 +92,6 @@ class ReceptionistDataTable extends DataTable
     protected function getReceptionistActionColumn($data)
     {
         $ban_unban = null;
-
         if (Auth::user()->hasRole('admin') || $data->manager_id == Auth::user()->manager->id) {
             $edit   = route("receptionists.edit" , [$data->id]);
             $delete = route("receptionists.destroy" ,[$data->id]);
@@ -97,46 +99,45 @@ class ReceptionistDataTable extends DataTable
             $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
             if ($data->user->hasRole('ban')){
                 $ban_unban = "<a class='btn btn-success ml-1'
-                    onclick='banButton(\"$ban\", \"{$data->name}\" , \"$current_datatable\")'>Unban</a>";
+                    onclick='banButton(\"$ban\", \"{$data->user->name}\" , \"$current_datatable\")'>Unban</a>";
             } else {
                 $ban_unban = "<a class='btn btn-warning ml-1'
-                    onclick='banButton(\"$ban\", \"{$data->name}\" , \"$current_datatable\")'>Ban</a>";
+                    onclick='banButton(\"$ban\", \"{$data->user->name}\" , \"$current_datatable\")'>Ban</a>";
             }
+
+            $delete_btn =
+                "<button type='button' class='btn btn-danger ml-1' data-toggle='modal' data-target='#Rdelete$data->id'>Delete</button>"
+                ."<div class='modal fade' id='Rdelete$data->id' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>"
+                    ."<div class='modal-dialog modal-dialog-centered'>"
+                            ."<div class='modal-content'>"
+                                ."<div class='modal-header'>"
+                                    ."<h5 class='modal-title  text-dark' id='exampleModalLabel'>"
+                                    ."<span class='text-danger'><i class='fas fa-exclamation-triangle'></i><i class='fas fa-times-circle'></i></span> Warning "
+                                    ."</h5>"
+                                    ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                    ."<span aria-hidden='true'>&times;</span>"
+                                    ."</button>"
+                                ."</div>"
+                                ."<div class='modal-body'>Are you sure you want to <span class='text-danger'>delete Receptionist: $data->name</span> ? </div>"
+                                ."<div class='modal-footer'>"
+                                        ."<a class='btn btn-delete btn-danger '  onclick='deleteRButton(\"$delete\", \"{$data->user->name}\" , \"$current_datatable\")'>Yes ,delete</a>"
+                                    ."<button type='button' class='btn btn-secondary ml-1' data-dismiss='modal'>Cancel</button>"
+                                ."</div>"
+                        ."</div>"
+                    ."</div>"
+                ."</div>";
+
             $html = "<div class='d-flex w-100  justify-content-center'>"
-                . "<a class='btn btn-info' href='$edit'>Edit</a>"
-                . $ban_unban
-                . "<a class='btn btn-danger ml-1' onclick='deleteButton(\"$delete\", \"{$data->name}\" , \"$current_datatable\")'>Delete</a>"
+                    . "<a class='btn btn-info' href='$edit'>Edit</a>"
+                    . $ban_unban
+                    . $delete_btn
                 . "</div>";
             return $html;
 
         }
     }
 
-//                ."<button type='button' class='btn btn-danger ml-1' data-toggle='modal' data-target='#delete$data->id'>"
-//                ."Delete"
-//                ."</button>"
-//                ."<div class='modal fade' id='Rdelete$data->id' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>"
-//                    ."<div class='modal-dialog modal-dialog-centered'>"
-//                            ."<div class='modal-content'>"
-//                                ."<div class='modal-header'>"
-//                                    ."<h5 class='modal-title  text-dark' id='exampleModalLabel'>"
-//                                    ."Are you sure you want to delete this receptionists ?"
-//                                    ."</h5>"
-//                                    ."<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
-//                                    ."<span aria-hidden='true'>&times;</span>"
-//                                    ."</button>"
-//                                ."</div>"
-//                                ."<div class='modal-footer'>"
-//                                ."<form class='d-inline' method='DELETE' action='$delete'>"
-//                                    ."<meta name='csrf-token' content='{{ csrf_token() }}'>"
-//                                    ."{{ method_field('DELETE') }}"
-//                                    ."<button class='btn btn-delete btn-danger ' onclick='delete_recept(event)'  id='$data->id' type='submit'>Yes ,delete</button>"
-//                                ."</form>"
-//                                ."<button type='button' class='btn btn-secondary ml-1' data-dismiss='modal'>Cancel</button>"
-//                            ."</div>"
-//                        ."</div>"
-//                    ."</div>"
-//                ."</div>"
+
 
 
 

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class StoreFloorRequest extends FormRequest
+class UpdateReceptionistRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,13 @@ class StoreFloorRequest extends FormRequest
      */
     public function rules()
     {
+//        dd($this->request);
         return [
-            "name"          => ["required" ,"min:3"],
-            "number"        => ["required" ,"unique:floors,number"],
+            'name'          => ['min:2'],
+            'email'         => ['required' ,'email' ,'unique:users,id,'.$this->receptionist_id],
+            'national_id'   => ['required' ,'digits:14'],
+            'image'         => ['image'],
+            'password'      => ["sometimes","nullable","min:6", "confirmed"],
             "manager_id"    => Rule::requiredIf(!Auth::user()->hasRole('manager')),
         ];
     }

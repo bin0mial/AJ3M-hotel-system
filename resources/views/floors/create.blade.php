@@ -19,19 +19,14 @@
                         <select name="manager_id" class="form-control">
                             <option selected disabled value="">Select a name:</option>
                             @foreach ($managers as $manager)
-                                <option value="{{ $manager->id }}">{{ $manager->id }} {{ $manager->user->name }}</option>
+                                <option value="{{ $manager->id }}">{{ $manager->id }}- {{ $manager->user->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
                 <h3 class="mx-auto">Floor Info</h3>
                 @endrole
-                @role('manager')
-                <div class="form-group">
-                    <label>Manager id<span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" name="manager_id" readonly value="{{ Auth::user()->id }}">
-                </div>
-                @endrole
+
                 <div class="form-group">
                     <label>Floor name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="name">

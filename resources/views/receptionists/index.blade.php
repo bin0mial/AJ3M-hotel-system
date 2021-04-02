@@ -10,6 +10,12 @@
     {{$dataTable->scripts()}}
     <script>
         function delete_recept(url) {
+            console.log(url)
+        }
+
+        const deleteRButton = (url, name, table) => {
+            console.log(table);
+
             const data = {
                 _method: "DELETE",
                 _token: "{{ csrf_token() }}"
@@ -22,14 +28,21 @@
                 },
                 type: "POST"
             });
+
             $.ajax({
-                type: "DELETE",
+                type: "POST",
                 data: data,
                 success: function () {
-                    $("#manager-table").ajax.reload();
+                    $(".fade").remove();
+                    $(`#${table}-table`).DataTable().ajax.reload(null, false);
+                },
+                error: function (jqXhr){
+                    alert(jqXhr.responseText)
                 },
             });
+
         }
+
         const banButton = (url, name, table) => {
             console.log(table);
 

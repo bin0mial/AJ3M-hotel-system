@@ -18,9 +18,9 @@
                     <div class="w-100">
                         <label>Manger:<span class="text-danger">*</span></label>
                         <select name="manager_id" class="form-control">
-                            <option selected disabled value="">Select a name:</option>
+                            <option selected disabled>Select a name:</option>
                             @foreach ($managers as $manager)
-                                <option value="{{ $manager->id }}">{{ $manager->id }} {{ $manager->user->name }}</option>
+                                <option value="{{ $manager->id }}">{{ $manager->id }}- {{ $manager->user->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -30,7 +30,7 @@
 
                 <x-forms.input name="name" type="text" placeholder="Enter Name" :value="old('name')" required="true"/>
                 <x-forms.input name="email" type="email" placeholder="Enter email" :value="old('email')" required="true"/>
-                <x-forms.input name="national_id" type="text" placeholder="Enter national id" :value="old('national_id')" required="true"/>
+                <x-forms.input name="national_id" type="number" placeholder="Enter national id" :value="old('national_id')" required="true"/>
                 <x-forms.input name="password" type="password" placeholder="Password" required="true"/>
                 <x-forms.input name="password_confirmation" type="password" placeholder="Confirm Password" required="true"/>
                 <div class="form-group">
