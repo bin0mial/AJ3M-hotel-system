@@ -36,6 +36,9 @@ Route::get('/clientHome', [ClientReservationController::class, 'index'])->name('
 Route::get('/reservations/rooms/{room}', [ClientReservationController::class, 'reserve'])
     ->name('clientHome.reserve');
 
+Route::get('/client/register', [ClientAuthController::class, 'register'])->name('clientRegister');
+Route::post('/clients',[ClientAuthController::class, 'store'])->name('client.store');
+
 Route::get('/checkout', function () {
     return view('clients.clientCheckout');
 })->name('clientCheckout');
@@ -142,6 +145,4 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/client', [ClientAuthController::class, 'index'])->name('clientLogin');
-Route::get('/client/register', [ClientAuthController::class, 'register'])->name('clientRegister');
 
-Route::post('/client/register', [ClientReservationController::class, 'register'])->name('clientRegister');

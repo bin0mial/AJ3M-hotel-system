@@ -12,7 +12,7 @@ class Client extends Model
     protected $fillable = [
         "mobile",
         "country",
-        "gender", 
+        "gender",
         "approval",
         "receptionist_id"
     ];
