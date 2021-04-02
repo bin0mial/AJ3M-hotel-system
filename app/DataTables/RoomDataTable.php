@@ -2,8 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Floor;
-use App\Models\User;
+use App\Models\Room;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -11,7 +10,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class FloorDataTable extends DataTable
+class RoomDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -24,19 +23,19 @@ class FloorDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function ($data) {
-                return $this->getFloorActionColumn($data);
+                return $this->getRoomActionColumn($data);
             });
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Floor $model
+     * @param \App\Models\Room $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Floor $model)
+    public function query(Room $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(["floor"]);
     }
 
     /**
@@ -47,7 +46,7 @@ class FloorDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('floor-table')
+            ->setTableId('room-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->lengthMenu()
@@ -59,7 +58,7 @@ class FloorDataTable extends DataTable
                 Button::make('print'),
                 Button::make('reset'),
                 Button::make('reload'),
-        );
+            );
 
     }
 
@@ -71,10 +70,13 @@ class FloorDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id')->title("Floor ID"),
-            Column::make('name')->title("Name"),
+            Column::make('id')->title("Room ID"),
             Column::make('number')->title("Number"),
+            Column::make('price')->title("Price"),
+            Column::make('capacity')->title("Capacity"),
+            Column::make('floor.name')->title("Floor Name"),
             Column::make('manager_id')->title("Manager ID"),
+            Column::make('reserved')->title("Reserved"),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -92,22 +94,21 @@ class FloorDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Floor_' . date('YmdHis');
+        return 'Room_' . date('YmdHis');
     }
 
-
-    protected function getFloorActionColumn($data)
+    protected function getRoomActionColumn($data)
     {
-        if (Auth::user()->hasRole('admin') || $data->manager_id == Auth::user()->id) {
-            $edit = route("floors.edit", [$data->id]);
-            $delete = route("floors.destroy", $data->id);
+        if (Auth::user()->hasRole('admin') || $data->manager->id == Auth::user()->id) {
+            $edit = route("rooms.edit", [$data->id]);
+            $delete = route("rooms.destroy", $data->id);
             $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
 
             $delete_btn =
-                "<button type='button' class='btn btn-warning ml-1' data-toggle='modal' data-target='#Fdelete$data->id'>Lock</button>"
-                ."<div class='modal fade' id='Fdelete$data->id' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>"
+                "<button type='button' class='btn btn-danger ml-1' data-toggle='modal' data-target='#RRdelete$data->id'>Delete</button>"
+                ."<div class='modal fade' id='RRdelete$data->id' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>"
                     ."<div class='modal-dialog modal-dialog-centered'>"
-                        ."<div class='modal-content'>"
+                    ."<div class='modal-content'>"
                         ."<div class='modal-header'>"
                             ."<h5 class='modal-title  text-dark' id='exampleModalLabel'>"
                             ."<span class='text-danger'><i class='fas fa-exclamation-triangle'></i><i class='fas fa-times-circle'></i></span> Warning "
@@ -116,21 +117,22 @@ class FloorDataTable extends DataTable
                             ."<span aria-hidden='true'>&times;</span>"
                             ."</button>"
                         ."</div>"
-                        ."<div class='modal-body'>Are you sure you want to <span class='text-danger'>lock Floor: $data->name</span> ? </div>"
+                            ."<div class='modal-body'>Are you sure you want to <span class='text-danger'>delete room: $data->number</span> ? </div>"
                             ."<div class='modal-footer'>"
-                            ."<button class='btn btn-warning' onclick='lockButton(\"$delete\", \"{$data->name }\", \"$current_datatable\")'  id='$data->id' type='submit'>Yes ,lock</button>"
-                            ."<a type='button' class='btn btn-secondary ml-1' data-dismiss='modal'>Cancel</a>"
+                                ."<button class='btn btn-danger' onclick='deleteRRButton(\"$delete\", \"{$data->name}\", \"$current_datatable\")'  id='$data->id' type='submit'>Yes ,delete</button>"
+                                ."<a type='button' class='btn btn-secondary ml-1' data-dismiss='modal'>Cancel</a>"
                             ."</div>"
                         ."</div>"
                     ."</div>"
                 ."</div>";
 
             $html = "<div class='d-flex justify-content-center'>"
-                    . "<a class='btn btn-info' href='$edit'>Edit</a>"
-                    . $delete_btn
+                . "<a class='btn btn-info' href='$edit'>Edit</a>"
+                . $delete_btn
                 . "</div>";
             return $html;
         }
 
     }
+
 }

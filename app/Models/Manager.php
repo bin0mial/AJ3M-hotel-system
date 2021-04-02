@@ -23,4 +23,13 @@ class Manager extends Model
     public function receptionists(){
         return $this->hasMany(Receptionist::class);
     }
+
+    public function floors(){
+        return $this->hasMany(Floor::class);
+    }
+
+    public function rooms(){
+        return $this->hasMany(Room::class);
+    }
+
 }

@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class StoreReceptRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +25,11 @@ class StoreReceptRequest extends FormRequest
     public function rules()
     {
         return [
-            "name"          => ["required"],
-            "email"         => ["required", "email", "unique:users"],
-            "national_id"   => ["required", "numeric", "max:14"  ,"unique:users"],
-            "password"      => ["required", "min:6" ,"confirmed"],
-            'avatar_image'  => 'mimes:jpeg,png',
+            "name" => ["required"],
+            "email" => ["required", "email", "unique:users,id," . Auth::user()->id],
+            "national_id" => ["required", "numeric", "unique:users,id," . Auth::user()->id],
+            "password" => ["sometimes","nullable","min:6", "confirmed"],
+            'avatar_image' => 'mimes:jpeg,png',
         ];
     }
 }

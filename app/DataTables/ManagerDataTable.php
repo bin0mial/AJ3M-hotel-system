@@ -39,7 +39,7 @@ class ManagerDataTable extends DataTable
      */
     public function query(Manager $model)
     {
-        return $model->newQuery()->with(["user"]);
+        return $model->newQuery()->with(["user"])->select("managers.*");
     }
 
     /**
