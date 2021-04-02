@@ -44,15 +44,18 @@ Route::group(['middleware' => 'auth'],function () {
 
 
     Route::prefix("receptionists")->middleware(["role:admin|manager"])->group(function (){
+        Route::get('/', [ReceptionistController::class, 'index'])
+            ->name('receptionists.index');
 
-        Route::get('/', [ReceptionistController::class, 'index'])->name('receptionists.index');
+        Route::get('/create', [ReceptionistController::class, 'create'])
+            ->name('receptionists.create');
 
-        Route::get('/create', [ReceptionistController::class, 'create'])->name('receptionists.create');
-
-        Route::post('/', [ReceptionistController::class, 'store'])->name('receptionists.store');
+        Route::post('/', [ReceptionistController::class, 'store'])
+            ->name('receptionists.store');
 
         Route::get('/{receptionists}/edit', [ReceptionistController::class, 'edit'])
             ->name('receptionists.edit');
+
 
         Route::put('/{receptionist_id}', [ReceptionistController::class, 'update'])
             ->name('receptionists.update');
@@ -66,17 +69,13 @@ Route::group(['middleware' => 'auth'],function () {
     });
 
     Route::prefix("floors")->middleware(["role:admin|manager"])->group(function (){
-
-        Route::get('/index', [FloorController::class, 'index'])->name('floors.index');
-
+        Route::get('/', [FloorController::class, 'index'])->name('floors.index');
         Route::get('/create', [FloorController::class, 'create'])->name('floors.create');
 
         Route::get('/{floor}/edit', [FloorController::class, 'edit'])->name('floors.edit');
 
         Route::put('/{floor}', [FloorController::class, 'update'])->name('floors.update');
-
-        Route::get('/{floor}', [FloorController::class, 'destroy'])->name('floors.destroy');
-
+        Route::delete('/{floor}', [FloorController::class, 'destroy'])->name('floors.destroy');
         Route::post('/', [FloorController::class, 'store'])->name('floors.store');
 
     });
