@@ -1,6 +1,15 @@
 @extends('layouts.client')
 
 @section('content')
+@if ($errors->any())
+<div class="alert alert-danger">
+<ul>
+@foreach ($errors->all() as $error)
+<li>{{ $error }}</li>
+@endforeach
+</ul>
+</div>
+@endif
 <div class="container">
     <div class="row justify-content-center">
         <div class="col col-md-8">
@@ -8,11 +17,11 @@
                 <div class="card-header">{{ __('Register a New Account') }}</div>
 
                 <div class="card-body">
-                    <form enctype="multipart/form-data" method="POST" action="{{ route('clientRegister') }}">
+                    <form enctype="multipart/form-data" method="POST" action="{{ route('client.store') }}">
                         @csrf
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Full Name') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">Full Name</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
@@ -29,7 +38,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email" name='email' type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -43,7 +52,7 @@
                             <label for="Phone Number" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="Phone Number" type="text" class="form-control @error('Phone Number') is-invalid @enderror" name="Phone Number" value="{{ old('Phone Number') }}" required autocomplete="Phone Number">
+                                <input id="mobile" type="text" class="form-control @error('Phone Number') is-invalid @enderror" name="mobile" value="{{ old('Phone Number') }}" required>
 
                                 @error('Phone Number')
                                     <span class="invalid-feedback" role="alert">
@@ -88,7 +97,7 @@
                         <div class="form-group row">
                             <label for="sel2"  class="col-md-4 col-form-label text-md-right">Select Country</label>
                             <div class="col-md-6">
-                            <select class="form-control" id="sel2">
+                            <select class="form-control" id="sel2" name="country">
                                 @foreach($countries as $key=>$country)
                                 <option value="{{ $country['name'] }}">{{ $country['name'] }}</option>
                                 @endforeach
@@ -100,15 +109,16 @@
                             <div class="input-group">
                                 <div class="input-group mb-6">
                                     <label for="avatar_image" class="col-md-4 col-form-label text-md-right">Choose Image</label>
-                                    <input type="file" class="form-control-file col-md-6 justify-content-center" id="avatar_image" name="avatar_image" accept="image/jpeg,png">
+                                    <input type="file" class="form-control-file col-md-6 justify-content-center" id="avatar_image" name="avatar_image" accept="image/jpeg,png" required>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
+
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
+                                    Register
                                 </button>
                             </div>
                         </div>

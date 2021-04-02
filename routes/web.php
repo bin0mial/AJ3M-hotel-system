@@ -24,7 +24,8 @@ use App\Http\Controllers\ClientController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+
 Route::get('/home', function () {
     return view('layouts.admin');
 });
@@ -33,7 +34,12 @@ Route::get('/reservations', function () {
     return view('reservations.index');
 });
 
-Route::get('/clientHome', [ClientReservationController::class, 'index'])->name('clientHome') ;
+Route::get('/clientHome', [ClientReservationController::class, 'index'])->name('clientHome.index');
+Route::get('/reservations/rooms/{room}', [ClientReservationController::class, 'reserve'])
+    ->name('clientHome.reserve');
+
+Route::get('/client/register', [ClientAuthController::class, 'register'])->name('clientRegister');
+Route::post('/clients',[ClientAuthController::class, 'store'])->name('client.store');
 
 Route::get('/checkout', function () {
     return view('clients.clientCheckout');
@@ -141,6 +147,4 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/client', [ClientAuthController::class, 'index'])->name('clientLogin');
-Route::get('/client/register', [ClientAuthController::class, 'register'])->name('clientRegister');
 
-Route::post('/client/register', [ClientReservationController::class, 'register'])->name('clientRegister');

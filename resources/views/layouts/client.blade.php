@@ -16,11 +16,11 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    @if (Route::currentRouteName()=='clientHome')
+    @if (Route::currentRouteName()=='clientHome.index')
         <link href="{{ asset('css/clientHome.css') }}" rel="stylesheet">
     @endif
 
-    @if (Route::currentRouteName()=='clientCheckout')
+    @if (Route::currentRouteName()=='checkout')
     <link href="{{ asset('css/checkout.css') }}" rel="stylesheet">
     @endif
     <!-- css for client home page -->
@@ -52,7 +52,7 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('clientLogin') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="/client">{{ __('Login') }}</a>
                                 </li>
                             @endif
 

@@ -23,7 +23,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/reservation/index">Login</a>
+                <a class="nav-link" href="/client">Login</a>
             </li>
           </ul>
         </div>
