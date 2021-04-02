@@ -41,14 +41,19 @@ class LoginReminderCommand extends Command
      */
     public function handle()
     {
-        Client::all()->filter(function ($client){
+        Client::all()->filter(function ($client) {
             $now = Carbon::now();
-            return $client->last_login && $now->diffInYears($client->last_login)>1 && ($client->last_notified || $now->diffInYears($client->last_notified)>1);
-        })->each("notifyClient");
+            return $client->last_login && $now->diffInYears($client->last_login) > 1 && ($client->last_notified || $now->diffInYears($client->last_notified) > 1);
+        })->each(function ($client) {
+            $client->user->notify(new LoginReminderNotification($client->user));
+            $client->last_notified = Carbon::now();
+            $client->save();
+        });
         return 0;
     }
 
-    private function notifyClient($client){
+    private function notifyClient($client)
+    {
         $client->user->notify(new LoginReminderNotification($client->user));
         $client->last_notified = Carbon::now();
         $client->save();
