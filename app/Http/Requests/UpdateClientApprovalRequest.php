@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateFloorRequest extends FormRequest
+class UpdateClientApprovalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,18 @@ class UpdateFloorRequest extends FormRequest
     public function rules()
     {
         return [
-            "name"          => ["required" , "min:3"],
-            "number"        => ["required" , "unique:floors,id,".$this->id ,"exists:floors,number"],
-            "manager_id"    => ["required" , "exists:managers,id"],
+            'client_id' => 'exists:clients,id',
+            'receptionist_id' => 'exists:receptionists,id'
+        ];
+    }
+
+
+    public function messages()
+    {
+        return [
+          
+            'client_id.exists'=>'client not found',
+            'receptionist_id.exists'=>'client not found'
         ];
     }
 }

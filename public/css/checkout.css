@@ -1,0 +1,75 @@
+.container-fluid {
+    margin-top: 80px !important;
+    margin-bottom: 80px !important;
+}
+
+p {
+    font-size: 14px;
+    margin-bottom: 7px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+.small {
+    font-size: 12px !important;
+    letter-spacing: 0.5px !important;
+}
+
+.Today {
+    color: rgb(83, 83, 83);
+}
+
+.btn-outline-primary {
+    background-color: #fff !important;
+    color: #4bb8a9 !important;
+    border: 1.3px solid #4bb8a9;
+    font-size: 12px;
+    border-radius: 0.4em !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #4bb8a9 !important;
+    color: #fff !important;
+    border: 1.3px solid #4bb8a9;
+}
+
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: #42a5f5 !important;
+}
+
+.card {
+    background-color: #fff;
+    box-shadow: 2px 4px 15px 0px rgb(0, 108, 170);
+    z-index: 0;
+}
+
+small {
+    font-size: 12px !important;
+}
+
+.a {
+    justify-content: space-between !important;
+}
+
+.border-line {
+    border-right: 1px solid rgb(226, 206, 226);
+}
+
+.card-footer img {
+    opacity: 0.3;
+}
+
+.card-footer h5 {
+    font-size: 1.1em;
+    color: #8c9eff;
+    cursor: pointer;
+}

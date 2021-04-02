@@ -34,39 +34,54 @@ class ReceptionistController extends Controller
         return redirect()->back()->with(["success" => ["message" => "Receptionist Created Successfully"]]);
     }
 
-    public function edit($receptionist){
-        return view('receptionists.edit',[
-            "receptionist" => User::find($receptionist),
-            "managers" => Manager::all(),
-        ]);
+    public function edit(Receptionist $receptionist){
+        if (Auth::user()->hasRole('admin')  || $receptionist->manager_id == Auth::user()->manager->id ){
+            return view('receptionists.edit',[
+                "receptionist"  => $receptionist,
+                "manager"       =>  Manager::find($receptionist->manager_id),
+                "managers"      => Manager::all(),
+            ]);
+        }
+        return redirect()->route('receptionists.index')
+            ->with(["error" => ["message" => "Unauthorized Action <i class='fas fa-ban'></i>"]]);
     }
 
-    public function update(UpdateReceptionistRequest $request ,$receptionist_id){
-        User::where('id', $receptionist_id)
-            ->update([
-                'name'          => $request['name'],
-                'email'         => $request['email'],
-                'national_id'   => $request['national_id'] ? $request['national_id'] : "",
-            ]);
+    public function update(UpdateReceptionistRequest $request ,Receptionist $receptionist){
+        $manager_id = Auth::user()->hasRole('manager') ?  Auth::user()->manager->id : $request->manager_id;
+        $valid = $request->validated();
+        $valid['manager_id'] = $manager_id;
+        $receptionist->user->update(array_filter($valid, function ($value) {
+            return $value !== null;
+        }));
+        $receptionist->update([
+            "manager_id" => $manager_id,
+        ]);
         return redirect()->route('receptionists.index')
                 ->with(["success" => ["message" => "Receptionist Updated Successfully"]]);
     }
 
-    public function destroy($id){
-        $user = User::find($id);
-        Receptionist::find($user->receptionist->id)->delete();
-        $user->delete();
+    public function destroy(Receptionist $receptionist){
+        if (Auth::user()->hasRole('admin')  || $receptionist->manager_id == Auth::user()->manager->id ){
+            $receptionist->delete();
+            $receptionist->user->delete();
+            return redirect()->route('receptionists.index')
+                ->with(["danger" => ["warning" => "Receptionist Deleted Successfully"]]);
+        }
         return redirect()->route('receptionists.index')
-                    ->with(["danger" => ["error" => "Receptionist Deleted Successfully"]]);
+            ->with(["error" => ["message" => "Unauthorized Action <i class='fas fa-ban'></i>"]]);
     }
 
-    public function ban($id){
-        $user = User::find($id);
-        if ($user->hasRole('ban')){
-            $user->removeRole('ban');
-        } else {
-            $user->assignRole('ban');
+    public function ban(Receptionist $receptionist){
+        if (Auth::user()->hasRole('admin')  || $receptionist->manager_id == Auth::user()->manager->id ){
+            $user = $receptionist->user;
+            if ($user->hasRole('ban')){
+                $user->removeRole('ban');
+            } else {
+                $user->assignRole('ban');
+            }
         }
+        return redirect()->route('receptionists.index')
+            ->with(["error" => ["message" => "Unauthorized Action <i class='fas fa-ban'></i>"]]);
     }
 
 }

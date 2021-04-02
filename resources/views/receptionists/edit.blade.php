@@ -20,7 +20,7 @@
                         <select name="manager_id" class="form-control">
                             <option selected disabled>Select a name:</option>
                              @foreach ($managers as $manager)
-                                 @if($receptionist->receptionist->manager->user->name == $manager->user->name)
+                                 @if($receptionist->manager->user->name == $manager->user->name)
                                     <option selected value="{{ $manager->id }}">{{ $manager->id }}- {{ $manager->user->name }}</option>
                                 @else
                                     <option value="{{ $manager->id }}">{{ $manager->id }}- {{ $manager->user->name }}</option>
@@ -36,21 +36,25 @@
                 <div class="form-group">
                     <label>Name</label>
                     <input type="text" class="form-control" name="name" placeholder="Enter name"
-                           value="{{ $receptionist->name }}">
+                           value="{{ $receptionist->user->name }}">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
                     <input type="email" class="form-control" name="email" placeholder="Enter email"
-                           value="{{ $receptionist->email }}">
+                           value="{{ $receptionist->user->email }}">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">National id</label>
                     <input type="number" class="form-control" name="national_id" placeholder="Enter national id"
-                            value="{{ $receptionist->national_id ? $receptionist->national_id : "" }}">
+                            value="{{ $receptionist->user->national_id ? $receptionist->user->national_id : "" }}">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Change Password</label>
                     <input type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Change Password</label>
+                    <input type="password" class="form-control" name="password_confirmation" placeholder="Password">
                 </div>
                 <div class="form-group">
                     <div class="input-group">

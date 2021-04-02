@@ -26,6 +26,9 @@ class ReceptionistDataTable extends DataTable
             ->eloquent($query)
             ->addColumn('action', function ($data) {
                 return $this->getReceptionistActionColumn($data);
+            })
+            ->addColumn("manager",function ($data){
+                return $data->manager_id;
             });
     }
 
@@ -37,7 +40,7 @@ class ReceptionistDataTable extends DataTable
      */
     public function query(Receptionist $model)
     {
-        return $model->newQuery()->with(["user"]);
+        return $model->newQuery()->with(["user"])->select("receptionists.*");
     }
 
     /**
@@ -71,8 +74,9 @@ class ReceptionistDataTable extends DataTable
      */
     protected function getColumns()
     {
+        
         return [
-            Column::make('user.id')->title("Receptionist ID"),
+            Column::make('id')->title("Receptionist ID"),
             Column::make('user.name')->title("Name"),
             Column::make('user.email')->title("Email"),
             Column::make('user.national_id')->title("National ID"),
@@ -89,7 +93,6 @@ class ReceptionistDataTable extends DataTable
     protected function getReceptionistActionColumn($data)
     {
         $ban_unban = null;
-
         if (Auth::user()->hasRole('admin') || $data->manager_id == Auth::user()->manager->id) {
             $edit   = route("receptionists.edit" , [$data->id]);
             $delete = route("receptionists.destroy" ,[$data->id]);
@@ -97,10 +100,10 @@ class ReceptionistDataTable extends DataTable
             $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
             if ($data->user->hasRole('ban')){
                 $ban_unban = "<a class='btn btn-success ml-1'
-                    onclick='banButton(\"$ban\", \"{$data->name}\" , \"$current_datatable\")'>Unban</a>";
+                    onclick='banButton(\"$ban\", \"{$data->user->name}\" , \"$current_datatable\")'>Unban</a>";
             } else {
                 $ban_unban = "<a class='btn btn-warning ml-1'
-                    onclick='banButton(\"$ban\", \"{$data->name}\" , \"$current_datatable\")'>Ban</a>";
+                    onclick='banButton(\"$ban\", \"{$data->user->name}\" , \"$current_datatable\")'>Ban</a>";
             }
 
             $delete_btn =
@@ -118,7 +121,7 @@ class ReceptionistDataTable extends DataTable
                                 ."</div>"
                                 ."<div class='modal-body'>Are you sure you want to <span class='text-danger'>delete Receptionist: $data->name</span> ? </div>"
                                 ."<div class='modal-footer'>"
-                                        ."<a class='btn btn-delete btn-danger '  onclick='deleteRButton(\"$delete\", \"{$data->name}\" , \"$current_datatable\")'  id='$data->id' type='submit'>Yes ,delete</a>"
+                                        ."<a class='btn btn-delete btn-danger '  onclick='deleteRButton(\"$delete\", \"{$data->user->name}\" , \"$current_datatable\")'>Yes ,delete</a>"
                                     ."<button type='button' class='btn btn-secondary ml-1' data-dismiss='modal'>Cancel</button>"
                                 ."</div>"
                         ."</div>"
@@ -132,7 +135,13 @@ class ReceptionistDataTable extends DataTable
                 . "</div>";
             return $html;
 
-        }
+        // }
+        $edit = route("manager.index");
+        $delete = route("manager.index");
+        return "<div class='d-flex'>"
+            . "<a class='btn btn-warning' href='$edit'>Edit</a>"
+            . "<a class='btn btn-danger ml-2' href='$delete'>Delete</a>"
+            . "</div>";
     }
 
 
