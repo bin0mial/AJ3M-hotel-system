@@ -74,7 +74,7 @@ class ReceptionistDataTable extends DataTable
      */
     protected function getColumns()
     {
-        
+
         return [
             Column::make('id')->title("Receptionist ID"),
             Column::make('user.name')->title("Name"),
@@ -135,13 +135,7 @@ class ReceptionistDataTable extends DataTable
                 . "</div>";
             return $html;
 
-        // }
-        $edit = route("manager.index");
-        $delete = route("manager.index");
-        return "<div class='d-flex'>"
-            . "<a class='btn btn-warning' href='$edit'>Edit</a>"
-            . "<a class='btn btn-danger ml-2' href='$delete'>Delete</a>"
-            . "</div>";
+         }
     }
 
 
