@@ -25,6 +25,7 @@
 <br>
     <div class="row">
         <!-- Room component -->
+        @foreach ($rooms as $room )
         <div class="col-md-4">
             <div class="card">
                 <div> <img src="{{ asset('images/rooms/hotelRoom1.jpg') }}" class="img-responsive image"> </div>
@@ -39,13 +40,15 @@
                         <li>feature 2</li>
                         <li>feature 3</li>
                     </ul>
-                    <p>Sleeps: <span><i class="bi bi-person-fill"></i><i class="bi bi-person-fill"></i><i class="bi bi-person-fill"></i></span></p>
+                    <p>Sleeps: <span><i class="bi bi-person-fill"> X {{ $room->capacity }}</span></p>
 
-                    <h6 class="card-text price-tag">$ 1,399 <small class="text-muted"> per night </small></h6>
+                    <h6 class="card-text price-tag">$ {{ $room->price }} <small class="text-muted"> per night </small></h6>
                     <button type="button" class="btn btn-success btn-lg btn-block">Reserve</button>
                 </div>
             </div>
         </div>
+        @endforeach
+
         <!-- End of Room component -->
 
 
