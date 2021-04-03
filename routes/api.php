@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Support\Facades\Hash;
 use \Illuminate\Validation\ValidationException;
+use App\Http\Controllers\Api\RoomsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +38,5 @@ Route::post('/sanctum/token', function (Request $request) {
 
     return ["token" => $user->createToken($request->device_name)->plainTextToken];
 });
+
+Route::get('/rooms', [RoomsController::class, 'index']);

@@ -37,6 +37,8 @@ Route::get('/reservations', function () {
 Route::get('/clientHome', [ClientReservationController::class, 'index'])->name('clientHome.index');
 Route::get('/reservations/rooms/{room}', [ClientReservationController::class, 'reserve'])
     ->name('clientHome.reserve');
+Route::post('/reservations/{room}', [ClientReservationController::class,'store'])->name("clientHome.store");
+Route::post('/reservations/{room}/payment', [ClientReservationController::class,'store'])->name("clientHome.pay");
 
 Route::get('/client/register', [ClientAuthController::class, 'register'])->name('clientRegister');
 Route::post('/clients',[ClientAuthController::class, 'store'])->name('client.store');
