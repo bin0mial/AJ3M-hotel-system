@@ -22,6 +22,10 @@
                 <a class="nav-link" href="#">Pricing</a>
             </li>
 
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ route('clientHome.index') }}">Our Rooms</a>
+              </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="/client">Login</a>
             </li>

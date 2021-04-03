@@ -80,7 +80,7 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route("clientHome.index") }}">Rooms</a>
+                                <a class="nav-link" href="/">Home</a>
                             </li>
                         @endguest
                     </ul>
