@@ -27,6 +27,7 @@ class ClientAuthController extends Controller
     public function store(StoreClientRequest $request){
         $valid = $request->validated();
         $user = User::create($valid);
+        $user->assignRole('client');
         $valid['user_id'] = $user->id;
         $valid['approval'] = false;
         Client::create($valid);

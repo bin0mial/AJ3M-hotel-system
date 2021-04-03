@@ -72,10 +72,10 @@ class ReceptionistController extends Controller
     public function ban(Receptionist $receptionist){
         if (Auth::user()->hasRole('admin')  || $receptionist->manager_id == Auth::user()->manager->id ){
             $user = $receptionist->user;
-            if ($user->hasRole('ban')){
-                $user->removeRole('ban');
+            if ($user->isBanned()){
+                $user->unban();
             } else {
-                $user->assignRole('ban');
+                $user->ban();
             }
         }
         return redirect()->route('receptionists.index')

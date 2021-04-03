@@ -27,6 +27,9 @@ class ClientReservationDataTable extends DataTable
             ->addColumn('action', 'clientreservation.action')
             ->addColumn('name',function($data){
                 return $data->client->user->name;
+            })
+            ->addColumn('room_price',function($data){
+                return "$".$data->paid_price*$data->days;
             });
 
     }
@@ -87,7 +90,7 @@ class ClientReservationDataTable extends DataTable
             Column::computed('name')->title("Name"),
             Column::make('accompany_number')->title("Client Accompany Number"),
             Column::make('room.number')->title("Room Number"),
-            Column::make('room.price')->title("Client paid price"),
+            Column::computed('room_price')->title("Client Total Price"),
 
             // Column::computed('action')
             //     ->exportable(false)

@@ -29,8 +29,8 @@
             <hr>
             <div class="row justify-content-between">
                 <div class="col">
-                    <p class="text-muted"> Room ID <span class="font-weight-bold text-dark">{{ $room->id }}</span></p>
-                    <p class="text-muted"> Place On <span class="font-weight-bold text-dark">{{ now() }}</span> </p>
+                    <p class="text-muted"> Room ID: <span class="font-weight-bold text-dark">{{ $room->id }}</span></p>
+                    <p class="text-muted"> Place on: <span class="font-weight-bold text-dark">{{ now()->isoFormat('ddd Do \of MMMM YYYY') }}</span> (today)</p>
                 </div>
             </div>
         </div>

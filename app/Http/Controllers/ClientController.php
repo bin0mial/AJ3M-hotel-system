@@ -19,14 +19,14 @@ class ClientController extends Controller
     public function index (ApprovedClientsDataTable $DataTable){
         return $DataTable->render("client.index");
     }
-    
+
     public function pending (ClientDataTable $DataTable){
         return $DataTable->render("client.pending");
     }
 
     public function get_Reservation(ClientReservationDataTable $DataTable)
     {
-      
+
         return $DataTable->render("client.reservation");
 
     }
@@ -34,9 +34,9 @@ class ClientController extends Controller
 
     public function accept(Client $client)
     {
-        
+
         $receptionists = Receptionist::all();
-    
+
         return view('client.accept',[
             'client' => $client,
             'receptionists' => $receptionists
@@ -44,15 +44,15 @@ class ClientController extends Controller
     }
 
 
-    public function update(UpdateClientApprovalRequest $request,Client $client) 
+    public function update(UpdateClientApprovalRequest $request,Client $client)
     {
-        
+
         $receptionist_id = Auth::user()->hasRole('receptionists') ?  Auth::user()->receptionist->id : $request->receptionist_id;
-  
-        if(!$client->approval){
-            $client->user->notify(new ClientApprovedNotification($client->user));
-        }
-        $requestData = $request->all();   
+
+//        if(!$client->approval){
+//            $client->user->notify(new ClientApprovedNotification($client->user));
+//        }
+        $requestData = $request->all();
         $requestData['approval'] = true;
         $requestData['receptionist_id'] = $receptionist_id ;
         $client->update($requestData);
@@ -60,9 +60,9 @@ class ClientController extends Controller
     }
 
 
-    
-        
-    
+
+
+
 }
 
 

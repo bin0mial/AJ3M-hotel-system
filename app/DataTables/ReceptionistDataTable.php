@@ -98,7 +98,7 @@ class ReceptionistDataTable extends DataTable
             $delete = route("receptionists.destroy" ,[$data->id]);
             $ban    = route("receptionists.ban" ,[$data->id]);
             $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
-            if ($data->user->hasRole('ban')){
+            if ($data->user->isBanned()){
                 $ban_unban = "<a class='btn btn-success ml-1'
                     onclick='banButton(\"$ban\", \"{$data->user->name}\" , \"$current_datatable\")'>Unban</a>";
             } else {

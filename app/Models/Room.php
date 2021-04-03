@@ -21,6 +21,10 @@ class Room extends Model
         return $val;
     }
 
+    public function reserve(){
+        $this::update(["reserved" => 1]);
+    }
+
     public function setPriceAttribute($value){
         $this->attributes['price'] = $value*100;
     }

@@ -30,7 +30,7 @@ class LoginController extends Controller
         if($user->hasRole('client')){
             return redirect()->route('clientHome.index');
         }
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('admin.dashboard');
     }
     /**
      * Where to redirect users after login.

@@ -1,27 +1,22 @@
 @extends('layouts.client')
 @section('content')
 <div class="container ">
-{{-- <div class="row" style="justify-content: center">
-    <h3>Reservation Request</h3>
-</div>
-<br> --}}
-{{-- <div class="row">
-    <div class="container">
-        <form class="form-inline" style="justify-content: center">
-          <label for="inlineFormEmail" class="m-2">Number of Guests</label>
-          <input type="email" class="form-control m-2" id="inlineFormEmail">
-          <label for="inlineFormPassword" class="m-2">Reservation Period</label>
-          <input type="password" class="form-control m-2" id="inlineFormPassword">
-          <button type="submit" class="btn btn-success m-2">Make Reservation</button>
-        </form>
-      </div>
-</div> --}}
-<br>
-<br>
 
+<br>
+<br>
 <div class="row" style="justify-content: center">
     <h3>Available Rooms</h3>
+
 </div>
+    @if(session()->has("success"))
+        <div class="alert alert-success">
+            <ul>
+                @foreach (session()->get("success") as $success)
+                    <li>{!! $success !!}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 <br>
     <div class="row">
         <!-- Room component -->

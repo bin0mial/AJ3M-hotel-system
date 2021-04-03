@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,10 +14,12 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Cog\Contracts\Ban\Bannable as BannableContract;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements BannableContract
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, Billable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, Billable ,Bannable;
 
     /**
      * The attributes that are mass assignable.
@@ -39,7 +42,7 @@ class User extends Authenticatable
     public function receptionist(){
         return $this->hasOne(Receptionist::class);
     }
-    
+
 
     public function client(){
         return $this->hasOne(Client::class);
@@ -53,8 +56,8 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-    
-    
+
+
 
 
     /**
@@ -87,5 +90,5 @@ class User extends Authenticatable
         $this->attributes["password"] = Hash::make($value);
     }
 
-   
+
 }
