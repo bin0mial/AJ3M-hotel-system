@@ -72,14 +72,6 @@ The client role is:
 3. Can update own info
 4. Can be created by seeding database or run `php arisan create:admin` command
 ## Contributers
-<a href="https://github.com/bin0mial"><img src="https://github.com/bin0mial.png" width="7%" style="border-radius:50%;margin-right:10px;" /></a>
-
-<a href="https://github.com/abdelrahmany0"><img src="https://github.com/abdelrahmany0.png" width="7%" style="border-radius:50%;margin-right:10px;" /></a>
-
-<a href="https://github.com/mahmoudm4"><img src="https://github.com/mahmoudm4.png" width="7%" style="border-radius:50%;margin-right:10px;" /></a>
-
-<a href="https://github.com/MalikHesham"><img src="https://github.com/MalikHesham.png" width="7%" style="border-radius:50%;margin-right:10px;" /></a>
-
-<a href="https://github.com/MohammedHieba"><img src="https://github.com/MohammedHieba.png" width="7%" style="border-radius:50%;margin-right:10px;" /></a>
+<a href="https://github.com/bin0mial"><img src="https://github.com/bin0mial.png" width="7%" style="border-radius:50%;margin-right:10px;" /></a><a href="https://github.com/abdelrahmany0"><img src="https://github.com/abdelrahmany0.png" width="7%" style="border-radius:50%;margin-right:10px;" /></a><a href="https://github.com/mahmoudm4"><img src="https://github.com/mahmoudm4.png" width="7%" style="border-radius:50%;margin-right:10px;" /></a><a href="https://github.com/MalikHesham"><img src="https://github.com/MalikHesham.png" width="7%" style="border-radius:50%;margin-right:10px;" /></a><a href="https://github.com/MohammedHieba"><img src="https://github.com/MohammedHieba.png" width="7%" style="border-radius:50%;margin-right:10px;" /></a>
 
 
