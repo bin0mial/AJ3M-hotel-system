@@ -13,7 +13,7 @@ class AddDaysColumnToClientReservationTable extends Migration
      */
     public function up()
     {
-        Schema::table('client_reservation', function (Blueprint $table) {
+        Schema::table('client_reservations', function (Blueprint $table) {
             $table->unsignedInteger("days");
         });
     }
