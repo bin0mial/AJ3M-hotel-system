@@ -60,20 +60,7 @@ class ClientController extends Controller
     }
 
 
-    public function destroy(Client $client)
-    {
-        
-        $user = $client->user();
-        try {
-            if ($client->delete()) {
-                $user->delete();
-            }
-        } catch (\Exception $exception) {
-            return response($exception->getMessage())->setStatusCode(400);
-        }
-        return response("Deleted Successfully");
-
-    }
+    
         
     
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\DataTables;
+
 use App\Models\User;
 use App\Models\Client;
 use App\Models\ClientReservation;
@@ -23,7 +24,11 @@ class ClientReservationDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'clientreservation.action');
+            ->addColumn('action', 'clientreservation.action')
+            ->addColumn('name',function($data){
+                return $data->client->user->name;
+            });
+
     }
 
     /**
@@ -35,14 +40,18 @@ class ClientReservationDataTable extends DataTable
     public function query(ClientReservation $model)
     {
 
-        $is_receptionist = Auth::user()->hasRole('receptionist') ;
-        return $model->newQuery()->with(['client','user'])->select('client_reservations.*')->where('clients.approval',true)
-        ->when($is_receptionist,function($query , $is_receptionist ){
 
-             return $query->where('receptionist_id',Auth::user()->receptionist->id);
 
-        });
-        
+
+        $is_receptionist = Auth::user()->hasRole('receptionist');
+        return $model->newQuery()
+            ->join("clients", 'clients.id', 'client_reservations.client_id')
+            ->with('room')
+            ->select('client_reservations.*')
+            ->where('approval', true)
+            ->when($is_receptionist, function ($query, $is_receptionist) {
+                return $query->where('receptionist_id', Auth::user()->receptionist->id);
+            });
     }
 
     /**
@@ -53,18 +62,18 @@ class ClientReservationDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('clientreservation-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->setTableId('clientreservation-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('create'),
+                Button::make('export'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            );
     }
 
     /**
@@ -75,11 +84,11 @@ class ClientReservationDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('user.name')->title("Name"),
+            Column::computed('name')->title("Name"),
             Column::make('accompany_number')->title("Client Accompany Number"),
-            Column::make('room_number')->title("Room Number"),
-            Column::make('paid_price')->title("Client paid price"),
-          
+            Column::make('room.number')->title("Room Number"),
+            Column::make('room.price')->title("Client paid price"),
+
             // Column::computed('action')
             //     ->exportable(false)
             //     ->printable(false)

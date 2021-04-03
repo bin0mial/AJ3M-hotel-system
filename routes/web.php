@@ -131,7 +131,7 @@ Route::group(['middleware' => 'auth'],function () {
         Route::get('/{client}/accept', [ClientController::class, 'accept'])->name('client.accept');
         Route::put('/{client}', [ClientController::class, 'update'])->name('client.update');
         Route::get('/reservation', [ClientController::class, 'get_reservation'])->name('client.reservation');
-        Route::delete('/{client}', [ClientController::class, 'destroy'])->name('client.destroy');
+        
     });
     });
     // Route::prefix("reservation")->group(function () {

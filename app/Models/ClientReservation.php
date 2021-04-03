@@ -14,10 +14,11 @@ class ClientReservation extends Model
         return $this->belongsTo(Client::class);
     }
     
-    public function rooms(){
+    public function room(){
         return $this->belongsTo(Room::class);
     }
    
+    
 
     
   

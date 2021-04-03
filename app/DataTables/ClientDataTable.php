@@ -100,11 +100,10 @@ class ClientDataTable extends DataTable
         if ($data->receptionist_id == null && $data->approval == false) {
            
             $accept = route("client.accept", [$data->id]);
-            $delete = route("client.destroy", $data->id);
             $current_datatable = strtolower(basename(__FILE__, "DataTable.php"));
             return "<div class='d-flex  justify-content-center'>"
-                . "<a class='btn btn-warning' href='$accept'>Accept</a>"
-                . "<button class='btn btn-danger ml-2 delete-user' onclick='deleteButton(\"$delete\", \"{$data->user->name }\", \"$current_datatable\")'>Reject</button>";
+                . "<a class='btn btn-warning' href='$accept'>Accept</a>";
+               
 
         }
     }
