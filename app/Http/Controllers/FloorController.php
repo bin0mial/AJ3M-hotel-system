@@ -20,9 +20,9 @@ class FloorController extends Controller
 
     public function create(){
         $floor_ids_array = Floor::pluck("id")->toArray();
-        $floor_num = rand(1, 5000);
+        $floor_num = rand(1000, 9000);
         while (in_array($floor_num, $floor_ids_array)){
-            $floor_num = rand(1, 5000);
+            $floor_num = rand(1000, 9000);
         }
 
         return view('floors.create',

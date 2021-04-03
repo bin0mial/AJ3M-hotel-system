@@ -164,7 +164,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{route('receptionists.index')}}" class="nav-link {{$currentRoute=="receptionists.index"?"active": ""}}">
-                                        <i class="nav-icon fas fa-users"></i>
+                                        <i class="fas fa-stream"></i>
                                         <p>All receptionists</p>
                                     </a>
                                 </li>
@@ -231,9 +231,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         @endhasanyrole
                         {{-- CLIENT  --}}
-                        {{-- @role('receptionists') --}}
-                        <li class="nav-item menu">
-                            <a href="#" class="nav-link">
+                        @hasanyrole('admin|manager|receptionists')
+                        @php($currentRoute = Route::currentRouteName())
+                        @php($active = str_starts_with($currentRoute, "client"))
+                        <li class="nav-item menu-{{$active? "open": "close"}}">
+                            <a href="#" class="nav-link @if($active) active @endif">
                                 <i class="nav-icon fas fa-user-friends"></i>
                                 <p>
                                     Client Control
@@ -241,27 +243,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                {{-- @role('role') --}}
+
                                 <li class="nav-item">
-                                    <a href="{{route('client.index')}}" class="nav-link">
+                                    <a href="{{route('client.index')}}" class="nav-link {{$currentRoute=="client.index"?"active": ""}}">
                                         <i class="nav-icon fas fa-book"></i>
                                         <p>Approved Clients</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href=" {{route('client.reservation')}} " class="nav-link">
+                                    <a href=" {{route('client.reservation')}} " class="nav-link {{$currentRoute=="client.reservation"?"active": ""}}">
                                         <i class="nav-icon fas fa-edit"></i>
                                         <p>Clients Reservations</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href=" {{route('client.pending')}} " class="nav-link">
-                                        <i class="nav-icon fas fa-edit"></i>
+                                    <a href=" {{route('client.pending')}} " class="nav-link {{$currentRoute=="client.pending"?"active": ""}}">
+                                        <i class="fas fa-pause-circle"></i>
                                         <p>Pending Clients</p>
                                     </a>
                                 </li>
 
-                                {{-- @endrole --}}
+                                @endhasanyrole
                             </ul>
                         </li>
                         {{-- @endhasanyrole --}}

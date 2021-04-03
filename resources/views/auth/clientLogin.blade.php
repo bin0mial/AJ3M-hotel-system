@@ -7,7 +7,17 @@
       <div class="card">
         <div class="card-header">{{ __('Welcome Back!') }}</div>
 
-        <div class="card-body">
+
+          <div class="card-body">
+              @if(session()->has("error"))
+                  <div class="alert alert-danger">
+                      <ul>
+                          @foreach (session()->get("error") as $error)
+                              <li>{!! $error !!}</li>
+                          @endforeach
+                      </ul>
+                  </div>
+              @endif
           <form method="POST" action="{{ route('login') }}">
             @csrf
 

@@ -24,9 +24,16 @@ class LoginController extends Controller
     use AuthenticatesUsers;
     protected function authenticated(Request $request, $user)
     {
-        if($user->hasRole('client') && $user->client->approval == 'false' ){
+//        dd($user->client->receptionist_id == null);
+        if($user->hasRole('client') && $user->client->approval == false && $user->client->receptionist_id == null){
             \Auth::logout();
         }
+
+        if($user->client->receptionist_id == null){
+           return redirect()->route('clientLogin')
+               ->with(["error" => ["message" => "Your Account is not Accepted Yet <i class='fas fa-ban'></i>"]]);
+    }
+
         if($user->hasRole('client')){
             return redirect()->route('clientHome.index');
         }

@@ -10,6 +10,7 @@ use App\Http\Controllers\ClientReservationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientAuthController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +40,7 @@ Route::group(['middleware' => ['logs-out-banned-user', 'forbid-banned-user']], f
 
     Auth::routes();
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/client', [ClientAuthController::class, 'index'])->middleware('guest')->name('clientLogin');
 
 
