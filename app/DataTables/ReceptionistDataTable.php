@@ -22,14 +22,23 @@ class ReceptionistDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        return datatables()
-            ->eloquent($query)
-            ->addColumn('action', function ($data) {
-                return $this->getReceptionistActionColumn($data);
-            })
-            ->addColumn("manager",function ($data){
-                return $data->manager_id;
-            });
+        if(Auth::user()->hasRole('admin')){
+            return datatables()
+                ->eloquent($query)
+                ->addColumn('action', function ($data) {
+                    return $this->getReceptionistActionColumn($data);
+                })
+                ->addColumn('manager name',function ($data){
+                        return $this->getManager($data);
+                });
+        } else {
+            return datatables()
+                ->eloquent($query)
+                ->addColumn('action', function ($data) {
+                    return $this->getReceptionistActionColumn($data);
+                });
+        }
+
     }
 
     /**
@@ -74,7 +83,28 @@ class ReceptionistDataTable extends DataTable
      */
     protected function getColumns()
     {
+        if(Auth::user()->hasRole('admin')){
+            return [
+            Column::make('id')->title("Receptionist ID"),
+            Column::make('user.name')->title("Name"),
+            Column::make('user.email')->title("Email"),
+            Column::make('user.national_id')->title("National ID"),
+            Column::make('user.created_at')->title("created_at"),
+            Column::computed('manager name')
+                ->exportable(true)
+                ->printable(true)
+                ->width(60)
+                ->addClass('text-center')
+                ->addClass("w-25"),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center')
+                ->addClass("w-25"),
 
+        ];
+        } else {
         return [
             Column::make('id')->title("Receptionist ID"),
             Column::make('user.name')->title("Name"),
@@ -86,8 +116,10 @@ class ReceptionistDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center')
-                ->addClass("w-25")
+                ->addClass("w-25"),
+
         ];
+        }
     }
 
     protected function getReceptionistActionColumn($data)
@@ -136,6 +168,10 @@ class ReceptionistDataTable extends DataTable
             return $html;
 
          }
+    }
+
+    public function getManager($data){
+        return  $data->manager->user->name;
     }
 
 

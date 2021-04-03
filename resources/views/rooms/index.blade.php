@@ -10,7 +10,7 @@
     {{$dataTable->scripts()}}
     <script>
 
-        const deleteRRButton = (url, name, table) => {
+        const deleteRRButton = (url, name, table ,id) => {
 
             const data = {
                 _method: "DELETE",
@@ -33,7 +33,10 @@
                     $(`#${table}-table`).DataTable().ajax.reload(null, false);
                 },
                 error: function (jqXhr){
-                    alert(jqXhr.responseText)
+                    $("#RRdelete"+id).css("display", "none");
+                    $(".fade").remove();
+                    $(`#${table}-table`).DataTable().ajax.reload(null, false);
+                    alert(jqXhr.responseText);
                 },
             });
 

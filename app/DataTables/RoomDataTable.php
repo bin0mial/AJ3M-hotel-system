@@ -20,11 +20,22 @@ class RoomDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        return datatables()
-            ->eloquent($query)
-            ->addColumn('action', function ($data) {
-                return $this->getRoomActionColumn($data);
-            });
+        if(Auth::user()->hasRole('admin')){
+            return datatables()
+                ->eloquent($query)
+                ->addColumn('action', function ($data) {
+                    return $this->getRoomActionColumn($data);
+                })->addColumn('manager name',function ($data){
+                    return $this->getManager($data);
+                });
+        } else {
+            return datatables()
+                ->eloquent($query)
+                ->addColumn('action', function ($data) {
+                    return $this->getRoomActionColumn($data);
+                });
+        }
+
     }
 
     /**
@@ -59,7 +70,6 @@ class RoomDataTable extends DataTable
                 Button::make('reset'),
                 Button::make('reload'),
             );
-
     }
 
     /**
@@ -69,22 +79,48 @@ class RoomDataTable extends DataTable
      */
     protected function getColumns()
     {
-        return [
-            Column::make('id')->title("Room ID"),
-            Column::make('number')->title("Number"),
-            Column::make('price')->title("Price"),
-            Column::make('capacity')->title("Capacity"),
-            Column::make('floor.name')->title("Floor Name"),
-            Column::make('manager_id')->title("Manager ID"),
-            Column::make('reserved')->title("Reserved"),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass("hover")
-                ->addClass('text-center')
-                ->addClass("w-25")
-        ];
+        if(Auth::user()->hasRole('admin')){
+            return [
+                Column::make('id')->title("Room ID"),
+                Column::make('number')->title("Number"),
+                Column::make('price')->title("Price"),
+                Column::make('capacity')->title("Capacity"),
+                Column::make('floor.name')->title("Floor Name"),
+                Column::make('manager_id')->title("Manager ID"),
+                Column::make('reserved')->title("Reserved"),
+                Column::computed('manager name')
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center')
+                    ->addClass("w-25"),
+                Column::computed('action')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass("hover")
+                    ->addClass('text-center')
+                    ->addClass("w-25"),
+
+            ];
+        } else {
+            return [
+                Column::make('id')->title("Room ID"),
+                Column::make('number')->title("Number"),
+                Column::make('price')->title("Price"),
+                Column::make('capacity')->title("Capacity"),
+                Column::make('floor.name')->title("Floor Name"),
+                Column::make('manager_id')->title("Manager ID"),
+                Column::make('reserved')->title("Reserved"),
+                Column::computed('action')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass("hover")
+                    ->addClass('text-center')
+                    ->addClass("w-25")
+            ];
+    }
     }
 
     /**
@@ -120,7 +156,7 @@ class RoomDataTable extends DataTable
                         ."</div>"
                             ."<div class='modal-body'>Are you sure you want to <span class='text-danger'>delete room: $data->number</span> ? </div>"
                             ."<div class='modal-footer'>"
-                                ."<button class='btn btn-danger' onclick='deleteRRButton(\"$delete\", \"{$data->name}\", \"$current_datatable\")'  id='$data->id' type='submit'>Yes ,delete</button>"
+                                ."<button class='btn btn-danger' onclick='deleteRRButton(\"$delete\", \"{$data->name}\", \"$current_datatable\" ,\"{$data->id}\")'  id='$data->id' type='submit'>Yes ,delete</button>"
                                 ."<a type='button' class='btn btn-secondary ml-1' data-dismiss='modal'>Cancel</a>"
                             ."</div>"
                         ."</div>"
@@ -134,6 +170,10 @@ class RoomDataTable extends DataTable
             return $html;
         }
 
+    }
+
+    public function getManager($data){
+        return  $data->manager->user->name;
     }
 
 }

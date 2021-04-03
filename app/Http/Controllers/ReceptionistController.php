@@ -59,8 +59,12 @@ class ReceptionistController extends Controller
 
     public function destroy(Receptionist $receptionist){
         if (Auth::user()->hasRole('admin')  || $receptionist->manager_id == Auth::user()->manager->id ){
-            $receptionist->delete();
-            $receptionist->user->delete();
+            try {
+                $receptionist->delete();
+                $receptionist->user->delete();
+            } catch (\Exception $exception) {
+                return response("Please remove clients handled by this user!!")->setStatusCode(400);
+            }
             return redirect()->route('receptionists.index')
                 ->with(["danger" => ["warning" => "Receptionist Deleted Successfully"]]);
         }

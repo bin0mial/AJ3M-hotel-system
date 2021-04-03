@@ -61,8 +61,7 @@ class RoomController extends Controller
             $room->delete();
             return redirect()->route('rooms.index');
         } else {
-            return redirect()->route('rooms.index')
-                ->with(["error" => ["message" => "Room is Reserved!!!"]]);
+            return response("The Room is reserved Can't delete XXX")->setStatusCode(400);
         }
     }
 

@@ -35,21 +35,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ route("admin.dashboard") }}" class="nav-link">Home</a>
                 </li>
-                <div class="nav-item d-none d-sm-inline-block" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </div>
+
             </ul>
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }}
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                           event.stopPropagation();
+                           document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
@@ -190,7 +200,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{route('floors.index')}}" class="nav-link {{$currentRoute=="floors.index"?"active": ""}}">
-                                        <i class="nav-icon fas fa-book"></i>
+                                        <i class="fas fa-list-ul"></i>
                                         <p>All Floors</p>
                                     </a>
                                 </li>
@@ -246,7 +256,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                 <li class="nav-item">
                                     <a href="{{route('client.index')}}" class="nav-link {{$currentRoute=="client.index"?"active": ""}}">
-                                        <i class="nav-icon fas fa-book"></i>
+                                        <i class="fas fa-check-double"></i>
                                         <p>Approved Clients</p>
                                     </a>
                                 </li>

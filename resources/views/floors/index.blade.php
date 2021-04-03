@@ -38,6 +38,7 @@
                     $("#Fdelete"+id).css("display", "none");
                     $(".fade").remove();
                     $(`#${table}-table`).DataTable().ajax.reload(null, false);
+
                     alert(jqXhr.responseText);
                 },
             });

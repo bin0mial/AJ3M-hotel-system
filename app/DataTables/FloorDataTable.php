@@ -21,11 +21,23 @@ class FloorDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        return datatables()
-            ->eloquent($query)
-            ->addColumn('action', function ($data) {
-                return $this->getFloorActionColumn($data);
-            });
+        if(Auth::user()->hasRole('admin')){
+            return datatables()
+                ->eloquent($query)
+                ->addColumn('action', function ($data) {
+                    return $this->getFloorActionColumn($data);
+                })
+                ->addColumn('manager name',function ($data){
+                    return $this->getManager($data);
+                });
+        } else {
+            return datatables()
+                ->eloquent($query)
+                ->addColumn('action', function ($data) {
+                    return $this->getFloorActionColumn($data);
+                });
+        }
+
     }
 
     /**
@@ -70,19 +82,44 @@ class FloorDataTable extends DataTable
      */
     protected function getColumns()
     {
-        return [
-            Column::make('id')->title("Floor ID"),
-            Column::make('name')->title("Name"),
-            Column::make('number')->title("Number"),
-            Column::make('manager_id')->title("Manager ID"),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass("hover")
-                ->addClass('text-center')
-                ->addClass("w-25")
-        ];
+        if(Auth::user()->hasRole('admin')){
+            return [
+                Column::make('id')->title("Floor ID"),
+                Column::make('name')->title("Name"),
+                Column::make('number')->title("Number"),
+                Column::make('manager_id')->title("Manager ID"),
+                Column::computed('manager name')
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass("hover")
+                    ->addClass('text-center')
+                    ->addClass("w-25"),
+                Column::computed('action')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass("hover")
+                    ->addClass('text-center')
+                    ->addClass("w-25"),
+
+            ];
+        } else {
+            return [
+                Column::make('id')->title("Floor ID"),
+                Column::make('name')->title("Name"),
+                Column::make('number')->title("Number"),
+                Column::make('manager_id')->title("Manager ID"),
+                Column::computed('action')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass("hover")
+                    ->addClass('text-center')
+                    ->addClass("w-25")
+            ];
+        }
+
     }
 
     /**
@@ -132,5 +169,9 @@ class FloorDataTable extends DataTable
             return $html;
         }
 
+    }
+
+    protected function getManager($data){
+        return $data->manager->user->name;
     }
 }
