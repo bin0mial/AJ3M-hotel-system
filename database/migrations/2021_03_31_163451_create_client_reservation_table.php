@@ -21,7 +21,6 @@ class CreateClientReservationTable extends Migration
             $table->unsignedBigInteger('paid_price');
             $table->timestamps();
             $table->foreign('client_id')->on('clients')->references('id');
-            $table->foreign('room_id')->on('rooms')->references('id');
         });
     }
 

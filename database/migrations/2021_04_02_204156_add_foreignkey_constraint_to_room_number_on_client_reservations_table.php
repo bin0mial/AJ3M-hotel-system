@@ -13,10 +13,16 @@ class AddForeignkeyConstraintToRoomNumberOnClientReservationsTable extends Migra
      */
     public function up()
     {
-        Schema::table('client_reservation', function (Blueprint $table) {
-            $table->foreign('room_number')->on('rooms')->references('id');
+        Schema::table('client_reservations', function (Blueprint $table) {
+            $table->foreign('room_id')->on('rooms')->references('id');
         });
     }
 
-    
+    public function down(){
+        Schema::table('client_reservations', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('room_id');
+        });
+    }
+
+
 }
