@@ -21,7 +21,7 @@ class ClientReservationController extends Controller
     }
 
     public function reserve(Room $room){
-        return view('clients.reserve' ,
+        return view('clients.reserve',
         [
             "room" => $room,
         ]);
@@ -54,8 +54,6 @@ class ClientReservationController extends Controller
     }
 
     public function successReserve(Request $request){
-//        $request['room_id'] = $room->number;
-//        dd($request->all());
         ClientReservation::create($request->all());
         return redirect()->route('clientHome.index')->with(["success" => ["message" => "Room Reserved Successfully"]]);
     }

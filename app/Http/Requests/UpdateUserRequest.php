@@ -25,11 +25,11 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => ["required"],
-            "email" => ["required", "email", "unique:users,id," . Auth::user()->id],
-            "national_id" => ["required", "numeric", "unique:users,id," . Auth::user()->id],
-            "password" => ["sometimes","nullable","min:6", "confirmed"],
-            'avatar_image' => 'mimes:jpeg,png',
+            "name"          => ["required"],
+            "email"         => ["required", "email", "unique:users,id," . Auth::user()->id],
+            "national_id"   => ["required", "numeric", "unique:users,id," . Auth::user()->id],
+            "password"      => ["sometimes","nullable","min:6", "confirmed"],
+            'avatar_image'  => 'mimes:jpeg,png',
         ];
     }
 }

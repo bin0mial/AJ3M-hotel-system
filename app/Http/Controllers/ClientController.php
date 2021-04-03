@@ -48,7 +48,7 @@ class ClientController extends Controller
     {
 
         $receptionist_id = Auth::user()->hasRole('receptionists') ?  Auth::user()->receptionist->id : $request->receptionist_id;
-
+        //*FOR EMAIL NOTIFICATION*//
 //        if(!$client->approval){
 //            $client->user->notify(new ClientApprovedNotification($client->user));
 //        }

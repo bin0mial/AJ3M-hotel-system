@@ -17,9 +17,13 @@
                     <div class="mx-auto">
                         <label>Manger:<span class="text-danger">*</span></label>
                         <select name="manager_id" class="form-control">
-                            <option selected disabled value="">Select a name:</option>
+                            <option selected disabled>Select a name:</option>
                             @foreach ($managers as $manager)
-                                <option value="{{ $manager->id }}">{{ $manager->id }}- {{ $manager->user->name }}</option>
+                                @if(old('manager_id') == $manager->id)
+                                    <option selected value="{{ $manager->id }}">{{ $manager->id }}- {{ $manager->user->name }}</option>
+                                @else
+                                    <option value="{{ $manager->id }}">{{ $manager->id }}- {{ $manager->user->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>

@@ -24,8 +24,8 @@ class UpdateClientApprovalRequest extends FormRequest
     public function rules()
     {
         return [
-            'client_id' => 'exists:clients,id',
-            'receptionist_id' => 'exists:receptionists,id'
+            'client_id'         => 'exists:clients,id',
+            'receptionist_id'   => 'exists:receptionists,id'
         ];
     }
 
@@ -33,7 +33,7 @@ class UpdateClientApprovalRequest extends FormRequest
     public function messages()
     {
         return [
-          
+
             'client_id.exists'=>'client not found',
             'receptionist_id.exists'=>'client not found'
         ];
